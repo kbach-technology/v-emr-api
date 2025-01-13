@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  md_emr_keycloak:
+    image: quay.io/keycloak/keycloak:25.0.2
+    restart: unless-stopped
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: md-emr.c2tln3dia5k1.ap-southeast-1.rds.amazonaws.com
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL_DATABASE: md_em_keycloak_dev
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: Ub4szK7aRbZRB28Fu3gfmcS4XR#Meet#
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME_STRICT: false
+      KC_PROXY: edge
+      KEYCLOAK_DEVELOPMENT_MODE: true
+    command:
+      - start
+    ports:
+      - "5001:8080"
+    networks:
+      - md_emr_network
+
+  md_emr_redis:
+    image: redis:latest
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "CHPdb@s168Redis"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - md_emr_network
+
+  md_emr_api:
+    image: md_emr_api
+    build:
+      context: .
+      dockerfile: EMR.API/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5002:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - md_emr_network
+      
+volumes:
+  redis_data:
+
+networks:
+  md_emr_network:
+    driver: bridge

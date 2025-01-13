@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "/J6TKzac+xYmCPk9X2WSU4NziHvhyxkYGWhnmtxqXdc=",
+  "Source": "EMR.API",
+  "BasePath": "_content/EMR.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

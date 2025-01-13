@@ -1,0 +1,15 @@
+﻿global using Microsoft.EntityFrameworkCore;
+global using EMR.Application.Extensions;
+global using EMR.Application.Interfaces.Repositories;
+global using EMR.Application.Interfaces.Services;
+global using EMR.Shared.Wrapper;
+global using MediatR;
+global using System;
+global using System.Linq;
+global using System.Linq.Expressions;
+global using System.Threading;
+global using System.Threading.Tasks;
+global using EMR.Shared.Constants.Application;
+global using Microsoft.Extensions.Localization;
+global using System.ComponentModel.DataAnnotations;
+global using AutoMapper;

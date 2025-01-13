@@ -1,0 +1,12 @@
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/bin/Debug/net8.0/EMR.SendGrid.deps.json
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/bin/Debug/net8.0/EMR.SendGrid.dll
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/bin/Debug/net8.0/EMR.SendGrid.pdb
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/obj/Debug/net8.0/EMR.SendGrid.csproj.AssemblyReference.cache
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/obj/Debug/net8.0/EMR.SendGrid.GeneratedMSBuildEditorConfig.editorconfig
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/obj/Debug/net8.0/EMR.SendGrid.AssemblyInfoInputs.cache
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/obj/Debug/net8.0/EMR.SendGrid.AssemblyInfo.cs
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/obj/Debug/net8.0/EMR.SendGrid.csproj.CoreCompileInputs.cache
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/obj/Debug/net8.0/EMR.SendGrid.dll
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/obj/Debug/net8.0/refint/EMR.SendGrid.dll
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/obj/Debug/net8.0/EMR.SendGrid.pdb
+/Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.SendGrid/obj/Debug/net8.0/ref/EMR.SendGrid.dll

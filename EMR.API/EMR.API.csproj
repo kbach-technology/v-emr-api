@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>false</InvariantGlobalization>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0"/>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6"/>
+        <PackageReference Include="Hangfire" Version="1.8.6"/>
+        <PackageReference Include="Hangfire.PostgreSql" Version="1.20.4"/>
+        <PackageReference Include="json" Version="1.0.1"/>
+        <PackageReference Include="LazyCache.AspNetCore" Version="2.4.0"/>
+        <PackageReference Include="MediatR" Version="10.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.OData.NewtonsoftJson" Version="8.0.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.11"/>
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="[1.19.6-Preview.1, 1.19.6]"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.5"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0"/>
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0"/>
+        <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0"/>
+        <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0"/>
+        <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\EMR.Application\EMR.Application.csproj" />
+        <ProjectReference Include="..\EMR.BlogStorage\EMR.BlogStorage.csproj" />
+        <ProjectReference Include="..\EMR.Redis\EMR.Redis.csproj" />
+        <ProjectReference Include="..\EMR.Shared\EMR.Shared.csproj" />
+        <ProjectReference Include="..\EMR.SMS\EMR.SMS.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+    </ItemGroup>
+
+</Project>
