@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using AspNetCoreRateLimit;
 using EMR.API.Localization;
-using EMR.Application.Attributes;
+using EMR.Application.Atrributes;
 using EMR.Application.Configurations;
 using EMR.Application.Interfaces.Services;
 using EMR.Application.Interfaces.Services.Keycloak;

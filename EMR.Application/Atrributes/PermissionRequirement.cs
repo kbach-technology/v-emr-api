@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
-namespace EMR.Application.Attributes;
+namespace EMR.Application.Atrributes;
 
 public class PermissionRequirement : IAuthorizationRequirement
 {
