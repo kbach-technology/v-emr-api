@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "uJb6Fy6Gdt8=",
+  "dgSpecHash": "498lVl6lAyA=",
   "success": true,
   "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj",
   "expectedPackageFiles": [
@@ -12,7 +12,6 @@
     "/Users/rathavithey/.nuget/packages/awssdk.s3/3.7.401.1/awssdk.s3.3.7.401.1.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/elasticsearch.net/7.17.0/elasticsearch.net.7.17.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/fluentvalidation/10.3.6/fluentvalidation.10.3.6.nupkg.sha512",
-    "/Users/rathavithey/.nuget/packages/hangfire.core/1.7.28/hangfire.core.1.7.28.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/identitymodel/4.4.0/identitymodel.4.4.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/identityserver4.storage/4.1.2/identityserver4.storage.4.1.2.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/lazycache/2.4.0/lazycache.2.4.0.nupkg.sha512",

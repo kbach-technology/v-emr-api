@@ -9,5 +9,9 @@ public class OtpRequestProfile : Profile
     {
         CreateMap<OtpRequest, OTP>().ReverseMap();
         CreateMap<ResendOtpRequest, OTP>().ReverseMap();
+        CreateMap<EmailOtpRequest, OTP>().ReverseMap();
+        CreateMap<ResendEmailOtpRequest, OTP>().ReverseMap();
+        CreateMap<ValidateOtpRequest, OTP>().ReverseMap();
+        CreateMap<ValidateEmailOtpRequest, OTP>().ReverseMap();
     }
 }

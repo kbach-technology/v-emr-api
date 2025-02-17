@@ -13,7 +13,9 @@ public static class DependenciesBootstrapper
 {
     public static IServiceCollection AddBlobStorage(this IServiceCollection services, IConfiguration configuration)
     {
-        var awsOptions = configuration.GetSection("AWS").Get<AWSOptions>();
+        var awsOptions = new AWSOptions(); 
+        configuration.GetSection("AWS").Bind(awsOptions);
+        
         var credentials = new BasicAWSCredentials(awsOptions.AccessKey, awsOptions.Secret);
 
         services.AddSingleton<IAmazonS3>(sp => new AmazonS3Client(

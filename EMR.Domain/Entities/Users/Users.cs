@@ -1,15 +1,24 @@
+using System.Collections.Generic;
 using EMR.Domain.Contracts;
+using EMR.Domain.Shared;
 
 namespace EMR.Domain.Entities.Users;
 
-public class Users : AuditableEntity<string>
+public class User : AuditableEntity<string>
 {
-    public required string IdpUserId { get; set; }
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
-    public required string Email { get; set; }
-    public string PhoneNumber { get; set; }
-    public string ProfileImage { get; set; }
-    public string CoverImage { get; set; }
+    public string KeycloakId { get; set; } = default!;
+    
+    public string UserNo { get; set; } = default!;
+    public string FullName { get; set; }
+    public string Email { get; set; } = default!;
+    public string Phone { get; set; }
+    
+    public Gender Gender { get; set; }
+    
+    public DateOfBirth DateOfBirth { get; set; }
+    
+    public string? ProImg { get; set; }
     public bool IsActive { get; set; }
+    
+    public virtual ICollection<UserSession> UserSessions { get; set; } = new List<UserSession>();
 }

@@ -15,6 +15,7 @@
           "Microsoft.AspNetCore.Components.Authorization": "8.0.0",
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
           "Microsoft.AspNetCore.Identity": "2.2.0",
+          "Microsoft.EntityFrameworkCore": "8.0.5",
           "Microsoft.EntityFrameworkCore.Design": "8.0.5",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4",
           "EMR.Shared": "1.0.0.0"

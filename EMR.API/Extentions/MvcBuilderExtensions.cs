@@ -1,8 +1,7 @@
-﻿using FluentValidation.AspNetCore;
-using EMR.Application.Configurations;
-using Microsoft.Extensions.DependencyInjection;
+﻿using EMR.Application.Configurations;
+using FluentValidation.AspNetCore;
 
-namespace GOJOR.API.Extensions;
+namespace EMR.API.Extentions;
 
 public static class MvcBuilderExtensions
 {

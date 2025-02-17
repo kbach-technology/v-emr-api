@@ -1,17 +1,28 @@
-﻿using EMR.Persistence.Contexts;
-using Microsoft.Extensions.Localization;
+﻿using System;
+using System.Threading;
+using EMR.Application.Interfaces.Repositories;
+using EMR.Shared.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace EMR.Seed.Services;
 
-public class DatabaseSeeder(
-    AppDbContext db,
-    ILogger<DatabaseSeeder> logger,
-    IStringLocalizer<DatabaseSeeder> localizer)
-    : IDatabaseSeeder
+public class DatabaseSeeder : IDatabaseSeeder
 {
-    public void Initialize()
+    private readonly IUnitOfWork<string> _unitOfWork;
+    private readonly ICurrentUserService _currentUser;
+    private readonly ILogger<DatabaseSeeder> _logger;
+
+    public DatabaseSeeder(
+        IUnitOfWork<string> unitOfWork,
+        ICurrentUserService currentUser,
+        ILogger<DatabaseSeeder> logger)
     {
-        db.SaveChanges();
+        _unitOfWork = unitOfWork;
+        _currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    public void Initialize(CancellationToken cancellationToken)
+    {
     }
 }

@@ -61,10 +61,6 @@
               "target": "Package",
               "version": "[10.3.6, )"
             },
-            "Hangfire.Core": {
-              "target": "Package",
-              "version": "[1.7.28, )"
-            },
             "LazyCache": {
               "target": "Package",
               "version": "[2.4.0, )"
@@ -288,6 +284,10 @@
               "target": "Package",
               "version": "[2.2.0, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.5, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers",
               "suppressParent": "All",
@@ -323,7 +323,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj",
-        "projectName": "EMR.Shared",
+        "projectName": "GOJOR.Shared",
         "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
         "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/",

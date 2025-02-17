@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EMR.Seed")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87752c53e6e817d379ce66164e95361f7264c3af")]
 [assembly: System.Reflection.AssemblyProductAttribute("EMR.Seed")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EMR.Seed")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

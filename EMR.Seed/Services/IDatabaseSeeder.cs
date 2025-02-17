@@ -1,6 +1,8 @@
-﻿namespace EMR.Seed.Services;
+﻿using System.Threading;
+
+namespace EMR.Seed.Services;
 
 public interface IDatabaseSeeder
 {
-    void Initialize();
+    void Initialize(CancellationToken cancellationToken);
 }

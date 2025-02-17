@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "mMBCW2v8GEc=",
+  "dgSpecHash": "b3+0ZHukpn0=",
   "success": true,
   "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,6 @@
     "/Users/rathavithey/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/11.0.0/automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/elasticsearch.net/7.17.0/elasticsearch.net.7.17.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/fluentvalidation/10.3.6/fluentvalidation.10.3.6.nupkg.sha512",
-    "/Users/rathavithey/.nuget/packages/hangfire.core/1.7.28/hangfire.core.1.7.28.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/identitymodel/4.4.0/identitymodel.4.4.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/identityserver4.storage/4.1.2/identityserver4.storage.4.1.2.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/lazycache/2.4.0/lazycache.2.4.0.nupkg.sha512",

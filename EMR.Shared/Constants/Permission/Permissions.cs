@@ -1,51 +1,80 @@
-﻿namespace EMR.Shared.Constants.Permission;
+﻿using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
+
+namespace EMR.Shared.Constants.Permission;
+
+public static class Modules
+{
+    public const string AppVersion = nameof(AppVersion);
+    public const string User = nameof(User);
+    public const string Role = nameof(Role);
+
+
+    public static IEnumerable<string> All => new[] 
+    { 
+        AppVersion, 
+        User,
+        Role
+    };
+}
+
+public static class Operations
+{
+    public const string Manage = "Manage";
+    public const string Create = "Create";
+    public const string Edit = "Edit";
+    public const string View = "View";
+    public const string ViewAny = "ViewAny";
+
+    public static IEnumerable<string> All => new[] 
+    { 
+        Manage,
+        Create, 
+        Edit, 
+        View, 
+        ViewAny 
+    };
+}
 
 public static class Permissions
 {
-    public static class Device
-    {
-        public const string View = "Device.View";
-        public const string Create = "Device.Create";
-        public const string Edit = "Device.Edit";
-        public const string Delete = "Device.Delete";
-    }
-
-    public static class Preferences
-    {
-        public const string ChangeLanguage = "Preference.ChangeLanguage";
-    }
-
-    public static class AuditTrail
-    {
-        public const string View = "AuditTrail.View";
-        public const string Export = "AuditTrail.Export";
-        public const string Search = "AuditTrail.Search";
-    }
+    public static string GeneratePermission(string module, string operation)
+        => $"{module}.{operation}";
 
     public static class AppVersion
     {
-        public const string View = "AppVersion.View";
-        public const string Create = "AppVersion.Create";
-        public const string Edit = "AppVersion.Edit";
-        public const string Delete = "AppVersion.Delete";
-    }
+        public const string Create = $"{Modules.AppVersion}.{Operations.Create}";
+        public const string Amend = $"{Modules.AppVersion}.{Operations.Edit}";
+        public const string View = $"{Modules.AppVersion}.{Operations.View}";
+        public const string ViewAny = $"{Modules.AppVersion}.{Operations.ViewAny}";
 
-    public static class BlobStorage
-    {
-        public const string Upload = "BlobStorage.Upload";
-        public const string Generate = "BlobStorage.Generate";
-        public const string Delete = "BlobStorage.Delete";
-    }
-
-    public static class Preference
-    {
-        public const string View = "Preference.View";
-        public const string Create = "Preference.Create";
-        public const string Edit = "Preference.Edit";
+        public static IEnumerable<string> All => new[] 
+        { 
+            Create, Amend, View, ViewAny 
+        };
     }
 
     public static class User
     {
-        public const string Edit = "User.ChangePin";
+        public const string Create = $"{Modules.User}.{Operations.Create}";
+        public const string Edit = $"{Modules.User}.{Operations.Edit}";
+        public const string View = $"{Modules.User}.{Operations.View}";
+        public const string ViewAny = $"{Modules.User}.{Operations.ViewAny}";
+
+        public static IEnumerable<string> All => new[] 
+        { 
+            Create, Edit, View, ViewAny 
+        };
+    }
+    
+    public static class Role
+    {
+        public const string Manage = $"{Modules.Role}.{Operations.Manage}";
+        public const string View = $"{Modules.Role}.{Operations.View}";
+
+        public static IEnumerable<string> All => new[] 
+        { 
+            Manage, View
+        };
     }
 }

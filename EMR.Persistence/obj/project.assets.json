@@ -1699,7 +1699,7 @@
           "bin/placeholder/EMR.Domain.dll": {}
         }
       },
-      "EMR.Shared/1.0.0": {
+      "GOJOR.Shared/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -1708,10 +1708,10 @@
           "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
-          "bin/placeholder/EMR.Shared.dll": {}
+          "bin/placeholder/GOJOR.Shared.dll": {}
         },
         "runtime": {
-          "bin/placeholder/EMR.Shared.dll": {}
+          "bin/placeholder/GOJOR.Shared.dll": {}
         }
       }
     }
@@ -4082,7 +4082,7 @@
       "path": "../EMR.Domain/EMR.Domain.csproj",
       "msbuildProject": "../EMR.Domain/EMR.Domain.csproj"
     },
-    "EMR.Shared/1.0.0": {
+    "GOJOR.Shared/1.0.0": {
       "type": "project",
       "path": "../EMR.Shared/EMR.Shared.csproj",
       "msbuildProject": "../EMR.Shared/EMR.Shared.csproj"
@@ -4091,12 +4091,13 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "EMR.Domain >= 1.0.0",
-      "EMR.Shared >= 1.0.0",
+      "GOJOR.Shared >= 1.0.0",
       "IdentityServer4.Storage >= 4.1.2",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.5",
       "Microsoft.AspNetCore.Components.Authorization >= 8.0.0",
       "Microsoft.AspNetCore.Http.Abstractions >= 2.2.0",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
+      "Microsoft.EntityFrameworkCore >= 8.0.5",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.5",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.4"
     ]
@@ -4165,6 +4166,10 @@
           "Microsoft.AspNetCore.Identity": {
             "target": "Package",
             "version": "[2.2.0, )"
+          },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[8.0.5, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers",

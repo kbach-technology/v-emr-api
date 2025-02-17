@@ -16,8 +16,6 @@
     <ItemGroup>
         <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0"/>
         <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6"/>
-        <PackageReference Include="Hangfire" Version="1.8.6"/>
-        <PackageReference Include="Hangfire.PostgreSql" Version="1.20.4"/>
         <PackageReference Include="json" Version="1.0.1"/>
         <PackageReference Include="LazyCache.AspNetCore" Version="2.4.0"/>
         <PackageReference Include="MediatR" Version="10.0.1"/>
@@ -48,6 +46,8 @@
         <ProjectReference Include="..\EMR.Application\EMR.Application.csproj" />
         <ProjectReference Include="..\EMR.BlogStorage\EMR.BlogStorage.csproj" />
         <ProjectReference Include="..\EMR.Redis\EMR.Redis.csproj" />
+        <ProjectReference Include="..\EMR.Seed\EMR.Seed.csproj" />
+        <ProjectReference Include="..\EMR.SendGrid\EMR.SendGrid.csproj" />
         <ProjectReference Include="..\EMR.Shared\EMR.Shared.csproj" />
         <ProjectReference Include="..\EMR.SMS\EMR.SMS.csproj" />
     </ItemGroup>

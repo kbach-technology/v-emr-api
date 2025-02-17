@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using EMR.API.Middlewares;
+using EMR.Seed.Services;
 using EMR.Shared.Constants.Localization;
 using Microsoft.AspNetCore.Localization;
 
@@ -26,15 +27,21 @@ internal static class ApplicationBuilderExtensions
             options.DisplayRequestDuration();
         });
     }
+    
+    internal static IApplicationBuilder Initialize(this IApplicationBuilder app, IConfiguration _configuration, CancellationToken cancellationToken)
+    {
+        using var serviceScope = app.ApplicationServices.CreateScope();
 
-    // internal static IApplicationBuilder UseEndpoints(this IApplicationBuilder app)
-    // {
-    //     return app.UseEndpoints(endpoints =>
-    //     {
-    //         endpoints.MapControllers();
-    //         endpoints.MapHub<SignalRHub>(ApplicationConstants.SignalR.HubUrl);
-    //     });
-    // }
+        var initializers = serviceScope.ServiceProvider.GetServices<IDatabaseSeeder>();
+
+        foreach (var initializer in initializers)
+        {
+            initializer.Initialize(cancellationToken);
+        }
+
+        return app;
+    }
+    
 
     internal static IApplicationBuilder UseRequestLocalizationByCulture(this IApplicationBuilder app)
     {

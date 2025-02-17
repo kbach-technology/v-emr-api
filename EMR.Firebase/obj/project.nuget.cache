@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "v0I8WoM9RWo=",
+  "dgSpecHash": "0t0YNVAp1ww=",
   "success": true,
   "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Firebase/EMR.Firebase.csproj",
   "expectedPackageFiles": [
@@ -14,7 +14,6 @@
     "/Users/rathavithey/.nuget/packages/google.apis/1.67.0/google.apis.1.67.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/google.apis.auth/1.67.0/google.apis.auth.1.67.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/google.apis.core/1.67.0/google.apis.core.1.67.0.nupkg.sha512",
-    "/Users/rathavithey/.nuget/packages/hangfire.core/1.7.28/hangfire.core.1.7.28.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/identitymodel/4.4.0/identitymodel.4.4.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/identityserver4.storage/4.1.2/identityserver4.storage.4.1.2.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/lazycache/2.4.0/lazycache.2.4.0.nupkg.sha512",

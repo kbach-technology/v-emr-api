@@ -16,6 +16,12 @@ public class RepositoryAsync<T, TId>(AppDbContext dbContext) : IRepositoryAsync<
         return entity;
     }
 
+    public async Task<List<T>> AddRangeAsync(IEnumerable<T> entities)
+    {
+        await dbContext.Set<T>().AddRangeAsync(entities);
+        return entities.ToList();
+    }
+
     public Task DeleteAsync(T entity)
     {
         dbContext.Set<T>().Remove(entity);

@@ -9,6 +9,5 @@ public interface ICurrentUserService
     string? Email { get; }
     bool EmailVerified { get; }
     List<string> Roles { get; }
-    bool IsMerchant { get; }
     string CurrentIp { get; }
 }

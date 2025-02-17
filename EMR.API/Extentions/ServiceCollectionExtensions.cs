@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
@@ -8,12 +9,16 @@ using EMR.API.Localization;
 using EMR.Application.Atrributes;
 using EMR.Application.Configurations;
 using EMR.Application.Interfaces.Services;
-using EMR.Application.Interfaces.Services.Keycloak;
+using EMR.Application.Interfaces.Services.Identity;
 using EMR.Application.Services;
-using EMR.Application.Services.Keycloak;
+using EMR.Application.Services.Identity;
+using EMR.Application.Services.Otps;
 using EMR.BlogStorage;
 using EMR.Persistence.Contexts;
 using EMR.Redis;
+using EMR.Seed.Services;
+using EMR.SendGrid;
+using EMR.Shared.Configurations;
 using EMR.Shared.Interfaces;
 using EMR.Shared.Models;
 using EMR.Shared.Services;
@@ -27,10 +32,9 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 
 namespace EMR.API.Extentions;
-
 internal static class ServiceCollectionExtensions
 {
-    public static AppConfiguration GetApplicationSettings(
+    public static AppConfiguration? GetApplicationSettings(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -39,16 +43,22 @@ internal static class ServiceCollectionExtensions
         return applicationSettingsConfiguration.Get<AppConfiguration>();
     }
 
-    public static IServiceCollection AddDatabase(
-        this IServiceCollection services,
-        IConfiguration configuration)
+    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
-        return services
-            .AddDbContext<AppDbContext>(options => options
-                .UseNpgsql(configuration.GetConnectionString("GOJORConnection"))
-                .EnableSensitiveDataLogging());
+        services.AddDbContext<AppDbContext>(options => options
+            .UseNpgsql(configuration.GetConnectionString("ContextConnection"))
+            .EnableSensitiveDataLogging());
+
+        return services;
     }
 
+    public static IServiceCollection AddPermissionServices(this IServiceCollection services)
+    {
+        services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
+        
+        return services;
+    }
+    
     internal static IServiceCollection AddServerLocalization(this IServiceCollection services)
     {
         services.TryAddTransient(typeof(IStringLocalizer<>), typeof(ServerLocalizer<>));
@@ -65,6 +75,7 @@ internal static class ServiceCollectionExtensions
     public static IServiceCollection AddSharedInfrastructure(this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddSendGrid();
         services.AddBlobStorage(configuration);
         services.AddRedisCacheStorage(configuration);
         services.AddTransient<IDateTimeService, SystemDateTimeService>();
@@ -75,7 +86,10 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddTransient<IKeycloakService, KeycloakService>();
-        services.AddTransient<INumService, NumService>();
+        services.AddTransient<IIdentityService, IdentityService>();
+        services.AddTransient<IKeycloakAuthorizationService, KeycloakAuthorizationService>();
+        services.AddTransient<INumericService, NumericService>();
+        services.AddTransient<IFinancialNumberService, FinancialNumberService>();
         services.AddTransient<IAppVersionService, AppVersionService>();
         services.AddTransient<IOtpService, OtpService>();
         services.AddTransient<ISmsService, SmsService>();
@@ -177,27 +191,31 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection AddIdentityServer(this IServiceCollection services,
         IConfiguration config)
     {
-        var key = Encoding.UTF8.GetBytes(config["Secret"]);
+        var keycloakConfig = new KeycloakConfiguration(); 
+        config.GetSection("Keycloak").Bind(keycloakConfig);
+        var key = Encoding.UTF8.GetBytes(keycloakConfig.Secret.Key);
 
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(bearer =>
+        })
+        .AddJwtBearer(bearer =>
         {
-            bearer.Authority = $"{config["Keycloak:Client:Authority"]}/realms/{config["Keycloak:Client:Realm"]}";
-            bearer.RequireHttpsMetadata = config.GetValue<bool>("Keycloak:Client:RequireHttpsMetadata");
+            bearer.Authority = $"{keycloakConfig.Client.Authority}/realms/{keycloakConfig.Client.Realm}";
+            bearer.RequireHttpsMetadata = keycloakConfig.Client.RequireHttpsMetadata;
+            bearer.Audience = keycloakConfig.Client.ClientId;
             bearer.SaveToken = true;
             bearer.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
-                ValidIssuer =
-                    $"{config["Keycloak:Client:Authority"]}/realms/{config["Keycloak:Client:Realm"]}", // Ensure this matches the issuer in the token
+                ValidIssuer = $"{keycloakConfig.Client.Authority}/realms/{keycloakConfig.Client.Realm}",// Ensure this matches the issuer in the token
                 ValidateAudience = false,
-                ValidAudience = config["Keycloak:Client:ClientId"],
+                ValidAudience = keycloakConfig.Client.ClientId,
                 RoleClaimType = ClaimTypes.Role,
+                
                 ClockSkew = TimeSpan.Zero
             };
 
@@ -219,10 +237,9 @@ internal static class ServiceCollectionExtensions
                         var introspectionClient = new HttpClient();
                         var introspectionRequest = new TokenIntrospectionRequest
                         {
-                            Address =
-                                $"{config["Keycloak:Client:Authority"]}/realms/{config["Keycloak:Client:Realm"]}/protocol/openid-connect/token/introspect",
-                            ClientId = config["Keycloak:Client:ClientId"],
-                            ClientSecret = config["Keycloak:Client:Secret"],
+                            Address = $"{keycloakConfig.Client.Authority}/realms/{keycloakConfig.Client.Realm}/protocol/openid-connect/token/introspect",
+                            ClientId = keycloakConfig.Client.ClientId,
+                            ClientSecret = keycloakConfig.Client.Secret,
                             Token = token.RawData
                         };
 
@@ -296,9 +313,23 @@ internal static class ServiceCollectionExtensions
                         policy.Requirements.Add(new PermissionRequirement(new[] { propertyValue })));
             }
         });
-
+        
         services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
+        return services;
+    }
+    
+    public static IServiceCollection AddKeyloakConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        var keycloakConfig = new KeycloakConfiguration();
+        configuration.GetSection("Keycloak").Bind(keycloakConfig);
+
+        if (string.IsNullOrEmpty(keycloakConfig.Client.Authority))
+        {
+            throw new InvalidOperationException("Keycloak configuration is missing or invalid in appsettings.json");
+        }
+
+        services.AddSingleton(keycloakConfig);
         return services;
     }
 }

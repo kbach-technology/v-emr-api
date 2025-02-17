@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using EMR.Domain.Contracts;
-using EMR.Domain.Entities;
+﻿using EMR.Domain.Contracts;
 using EMR.Domain.Entities.Settings;
 using EMR.Domain.Entities.Users;
+using EMR.Persistence.Configurations;
 using EMR.Shared.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,14 +20,12 @@ public class AppDbContext : AuditableContext
     }
 
     public DbSet<AppVersion> AppVersions { get; set; }
-
     public DbSet<Device> Devices { get; set; }
-
     public DbSet<Preference> Preferences { get; set; }
-
     public DbSet<OTP> Otps { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<UserSession> UserSessions { get; set; }
 
-    public DbSet<Users> Users { get; set; }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
@@ -55,6 +50,10 @@ public class AppDbContext : AuditableContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.ApplyConfiguration(new UserConfiguration());
+        builder.ApplyConfiguration(new UserSessionConfiguration());
+        
+        
         foreach (var property in builder.Model.GetEntityTypes()
                      .SelectMany(t => t.GetProperties())
                      .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))

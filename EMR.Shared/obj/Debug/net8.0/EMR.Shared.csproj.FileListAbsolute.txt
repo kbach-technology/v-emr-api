@@ -10,3 +10,16 @@
 /Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.Shared/obj/Debug/net8.0/refint/EMR.Shared.dll
 /Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.Shared/obj/Debug/net8.0/EMR.Shared.pdb
 /Users/rathavithey/Downloads/gojor-api-template-api-boilerplate-keycloak-master/EMR.Shared/obj/Debug/net8.0/ref/EMR.Shared.dll
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/bin/Debug/net8.0/EMR.Shared.deps.json
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/bin/Debug/net8.0/EMR.Shared.dll
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/bin/Debug/net8.0/EMR.Shared.pdb
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/EMR.Shared.csproj.AssemblyReference.cache
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/EMR.Shared.GeneratedMSBuildEditorConfig.editorconfig
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/EMR.Shared.AssemblyInfoInputs.cache
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/EMR.Shared.AssemblyInfo.cs
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/EMR.Shared.csproj.CoreCompileInputs.cache
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/EMR.Shared.sourcelink.json
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/EMR.Shared.dll
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/refint/EMR.Shared.dll
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/EMR.Shared.pdb
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/Debug/net8.0/ref/EMR.Shared.dll

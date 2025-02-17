@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Reflection;
 using EMR.Application.Configurations;
-using EMR.Application.Interfaces.Repositories;
 using EMR.Application.Interfaces.Serialization.Options;
 using EMR.Application.Interfaces.Serialization.Serializers;
 using EMR.Application.Interfaces.Serialization.Settings;
@@ -10,7 +9,6 @@ using EMR.Application.Serialization.JsonConverters;
 using EMR.Application.Serialization.Options;
 using EMR.Application.Serialization.Serializers;
 using EMR.Application.Serialization.Settings;
-using EMR.Domain.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
