@@ -272,7 +272,6 @@ public class KeycloakService : IKeycloakService
         }
     }
 
-    // This method is working event if you enable Edit username option in keycloak
     public async Task<Result<string>> ChangeEmailAsync(ChangeEmailRequest req,
         CancellationToken cancellationToken)
     {
@@ -284,18 +283,23 @@ public class KeycloakService : IKeycloakService
                 $"{_keycloakConfig.Client.Authority}/admin/realms/{_keycloakConfig.Client.Realm}/users/{req.UserId}");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Data);
             request.Content =
-                new StringContent(JsonConvert.SerializeObject(new { username = req.NewEmail }), Encoding.UTF8,
-                    "application/json");
+                new StringContent(JsonConvert.SerializeObject(new { 
+                    username = req.NewEmail,
+                    email = req.NewEmail,
+                    emailVerified = true
+                }), Encoding.UTF8, "application/json");
 
             var response = await client.SendAsync(request, cancellationToken);
 
             if (response.IsSuccessStatusCode)
-                return await Result<string>.SuccessAsync(_localizer["Username changed successfully"]);
+                return await Result<string>.SuccessAsync(_localizer["Email changed successfully"]);
 
-            return await Result<string>.FailAsync(_localizer["Failed to change username"]);
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            return await Result<string>.FailAsync($"{_localizer["Failed to change email"]}: {errorContent}");
         }
         catch (Exception e)
         {
+            _trace.Error(e, "Error changing email in Keycloak");
             return await Result<string>.FailAsync(e.Message);
         }
     }
@@ -305,7 +309,12 @@ public class KeycloakService : IKeycloakService
     {
         try
         {
-            var userid = _currentUserService.UserId;
+            if (string.IsNullOrEmpty(_currentUserService.Email))
+                return await Result<string>.FailAsync(_localizer["User email not found"]);
+
+            if (string.IsNullOrEmpty(currentPassword))
+                return await Result<string>.FailAsync(_localizer["Password cannot be empty"]);
+
             var client = _httpClientFactory.CreateClient();
             var tokenEndpoint = $"{_keycloakConfig.Client.TokenEndpoint}";
 
@@ -316,24 +325,29 @@ public class KeycloakService : IKeycloakService
                 new("client_id", _keycloakConfig.Client.ClientId),
                 new("client_secret", _keycloakConfig.Client.Secret),
                 new("grant_type", "password"),
-                new("scope", _keycloakConfig.Client.Scope)
+                new("scope", _keycloakConfig.Client.Scope),
+                new("username", _currentUserService.Email),
+                new("password", currentPassword)
             };
-
-            formData.Add(new KeyValuePair<string, string>("username", _currentUserService.Email));
-            formData.Add(new KeyValuePair<string, string>("password", currentPassword));
 
             request.Content = new FormUrlEncodedContent(formData);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
             var response = await client.SendAsync(request, cancellationToken);
 
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                return await Result<string>.FailAsync(response.StatusCode == HttpStatusCode.Unauthorized 
+                    ? _localizer["Password is incorrect"]
+                    : $"{_localizer["Failed to validate password"]}: {errorContent}");
+            }
 
-            return response.IsSuccessStatusCode
-                ? await Result<string>.SuccessAsync(_localizer["Password is correct"])
-                : await Result<string>.FailAsync(_localizer["Password is incorrect"]);
+            return await Result<string>.SuccessAsync(_localizer["Password is correct"]);
         }
         catch (Exception ex)
         {
+            _trace.Error(ex, "Error validating current password");
             return await Result<string>.FailAsync(_localizer[ex.Message]);
         }
     }
@@ -342,8 +356,14 @@ public class KeycloakService : IKeycloakService
     {
         try
         {
-            var token = await GetKeycloakAdminCliTokenAsync(cancellationToken);
             var userId = await GetUserIdAsync(req.Email, cancellationToken);
+            if (string.IsNullOrEmpty(userId))
+                return await Result<string>.FailAsync(_localizer["User not found"]);
+
+            var token = await GetKeycloakAdminCliTokenAsync(cancellationToken);
+            if (!token.Succeeded)
+                return await Result<string>.FailAsync(_localizer["Failed to obtain Keycloak token"]);
+
             var client = _httpClientFactory.CreateClient();
             var request = new HttpRequestMessage(HttpMethod.Put,
                 $"{_keycloakConfig.Client.Authority}/admin/realms/{_keycloakConfig.Client.Realm}/users/{userId}/reset-password");
@@ -358,91 +378,163 @@ public class KeycloakService : IKeycloakService
 
             if (response.IsSuccessStatusCode)
                 return await Result<string>.SuccessAsync(_localizer["Password reset successfully"]);
+
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return await Result<string>.FailAsync(
-                    _localizer["Pin code must be different from the previous one and at lease 6 digits"]);
+                    _localizer["Password must be at least 6 characters long"]);
 
-            return await Result<string>.FailAsync(_localizer["Failed to reset pin code"]);
+            return await Result<string>.FailAsync($"{_localizer["Failed to reset password"]}: {errorContent}");
         }
         catch (Exception e)
         {
-            return await Result<string>.FailAsync(e.Message);
+            _trace.Error(e, "Error resetting password in Keycloak");
+            return await Result<string>.FailAsync(_localizer[e.Message]);
         }
     }
 
     public async Task<Result<List<GetUserSessionResponse>>> GetUserSessionAsync(string id,
         CancellationToken cancellationToken)
     {
-        var token = await GetKeycloakAdminCliTokenAsync(cancellationToken);
-        var client = _httpClientFactory.CreateClient();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data);
+        try
+        {
+            var token = await GetKeycloakAdminCliTokenAsync(cancellationToken);
+            if (!token.Succeeded)
+                return await Result<List<GetUserSessionResponse>>.FailAsync(_localizer["Failed to obtain Keycloak token"]);
 
-        var response = await client.GetAsync(
-            $"{_keycloakConfig.Client.Authority}/admin/realms/{_keycloakConfig.Client.Realm}/users/{id}/sessions",
-            cancellationToken);
+            var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data);
 
-        response.EnsureSuccessStatusCode();
-        var data = await response.Content.ReadFromJsonAsync<List<GetUserSessionResponse>>(cancellationToken);
+            var response = await client.GetAsync(
+                $"{_keycloakConfig.Client.Authority}/admin/realms/{_keycloakConfig.Client.Realm}/users/{id}/sessions",
+                cancellationToken);
 
-        return await Result<List<GetUserSessionResponse>>.SuccessAsync(data, _localizer["User session found"]);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                return await Result<List<GetUserSessionResponse>>.FailAsync(
+                    $"{_localizer["Failed to get user sessions"]}: {errorContent}");
+            }
+
+            var data = await response.Content.ReadFromJsonAsync<List<GetUserSessionResponse>>(cancellationToken);
+            if (data == null)
+                return await Result<List<GetUserSessionResponse>>.FailAsync(_localizer["No session data found"]);
+
+            return await Result<List<GetUserSessionResponse>>.SuccessAsync(data, _localizer["User session found"]);
+        }
+        catch (Exception e)
+        {
+            _trace.Error(e, "Error getting user sessions from Keycloak");
+            return await Result<List<GetUserSessionResponse>>.FailAsync(e.Message);
+        }
     }
 
     public async Task<Result<string>> GetKeycloakAdminCliTokenAsync(CancellationToken cancellationToken)
     {
-        var client = _httpClientFactory.CreateClient();
-        var request = new HttpRequestMessage(HttpMethod.Post, _keycloakConfig.Admin.AdminTokenEndpoint);
-
-        var formData = new Dictionary<string, string>
+        try
         {
-            ["client_id"] = _keycloakConfig.Admin.ClientId,
-            ["client_secret"] = _keycloakConfig.Admin.Secret,
-            ["grant_type"] = _keycloakConfig.Admin.GrantType,
-            ["scope"] = _keycloakConfig.Admin.Scope,
-            ["username"] = _keycloakConfig.Admin.Username,
-            ["password"] = _keycloakConfig.Admin.Password
-        };
-
-        request.Content = new FormUrlEncodedContent(formData);
-        request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-
-        var response = await client.SendAsync(request, cancellationToken);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-            var token = JObject.Parse(responseContent)["access_token"]?.ToString();
-
-            if (token != null)
+            if (string.IsNullOrEmpty(_keycloakConfig.Admin.ClientId) || 
+                string.IsNullOrEmpty(_keycloakConfig.Admin.Secret) ||
+                string.IsNullOrEmpty(_keycloakConfig.Admin.Username) ||
+                string.IsNullOrEmpty(_keycloakConfig.Admin.Password))
             {
+                _trace.Error("Missing required Keycloak admin configuration");
+                return await Result<string>.FailAsync("Invalid Keycloak admin configuration");
+            }
+
+            var client = _httpClientFactory.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, _keycloakConfig.Admin.AdminTokenEndpoint);
+
+            var formData = new Dictionary<string, string>
+            {
+                ["client_id"] = _keycloakConfig.Admin.ClientId,
+                ["client_secret"] = _keycloakConfig.Admin.Secret,
+                ["grant_type"] = _keycloakConfig.Admin.GrantType,
+                ["scope"] = _keycloakConfig.Admin.Scope,
+                ["username"] = _keycloakConfig.Admin.Username,
+                ["password"] = _keycloakConfig.Admin.Password
+            };
+
+            request.Content = new FormUrlEncodedContent(formData);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+            var response = await client.SendAsync(request, cancellationToken);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                _trace.Error($"Failed to get admin token: {errorContent}");
+                return await Result<string>.FailAsync("Failed to get keycloak admin token");
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            try
+            {
+                var tokenObject = JObject.Parse(responseContent);
+                var token = tokenObject["access_token"]?.ToString();
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    _trace.Error("Admin token response missing access_token");
+                    return await Result<string>.FailAsync("Invalid admin token response");
+                }
+
                 return await Result<string>.SuccessAsync(data: token);
             }
+            catch (JsonReaderException ex)
+            {
+                _trace.Error(ex, "Error parsing admin token response");
+                return await Result<string>.FailAsync("Invalid admin token response format");
+            }
         }
-
-        return await Result<string>.FailAsync("Failed to get keycloak admin token");
+        catch (Exception ex)
+        {
+            _trace.Error(ex, "Error getting admin token");
+            return await Result<string>.FailAsync("Failed to get keycloak admin token");
+        }
     }
 
     public async Task<Result<string>> GetClientIdAsync(string clientId, string adminToken,
         CancellationToken cancellationToken)
     {
+        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(adminToken))
+            return await Result<string>.FailAsync("Invalid client ID or admin token");
+
         var client = _httpClientFactory.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Get,
             $"{_configuration["Keycloak:Admin:Authority"]}/admin/realms/{_configuration["Keycloak:Client:Realm"]}/clients?clientId={clientId}");
         request.Headers.Authorization =
             new AuthenticationHeaderValue("Bearer", adminToken);
 
-        var response = await client.SendAsync(request, cancellationToken);
-
-        if (response.IsSuccessStatusCode)
+        try 
         {
-            var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-            var keyClients = JArray.Parse(responseContent);
-            var keyClient = keyClients.FirstOrDefault();
+            var response = await client.SendAsync(request, cancellationToken);
 
-            if (client != null)
-                return await Result<string>.SuccessAsync(data: keyClient["id"].ToString());
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                var keyClients = JArray.Parse(responseContent);
+                var keyClient = keyClients.FirstOrDefault() as JObject;
+
+                if (keyClient != null && keyClient.ContainsKey("id"))
+                    return await Result<string>.SuccessAsync(data: keyClient["id"].ToString());
+
+                return await Result<string>.FailAsync("Client not found");
+            }
+
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            return await Result<string>.FailAsync($"Failed to get client ID: {errorContent}");
         }
-
-        return await Result<string>.FailAsync("Failed to get client id");
+        catch (JsonReaderException ex)
+        {
+            _trace.Error(ex, "Error parsing client response from Keycloak");
+            return await Result<string>.FailAsync("Invalid response format from Keycloak");
+        }
+        catch (Exception ex)
+        {
+            _trace.Error(ex, "Error getting client ID from Keycloak");
+            return await Result<string>.FailAsync("Failed to get client ID");
+        }
     }
 
     private async Task<string> GetUserIdAsync(string loginId, CancellationToken cancellationToken)
@@ -469,20 +561,39 @@ public class KeycloakService : IKeycloakService
 
         if (response.IsSuccessStatusCode)
         {
-            var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-            using (var document = JsonDocument.Parse(responseContent))
+            try
             {
-                var root = document.RootElement;
-
-                var roleId = root.GetProperty("id").GetString();
-                var roleDescription = root.GetProperty("description").GetString();
-
-                var roles = new[]
+                var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                using (var document = JsonDocument.Parse(responseContent))
                 {
-                    new { id = roleId, name = roleName, description = roleDescription }
-                };
+                    var root = document.RootElement;
 
-                return await Result<object>.SuccessAsync(roles);
+                    if (!root.TryGetProperty("id", out var idElement) || 
+                        !root.TryGetProperty("description", out var descElement))
+                    {
+                        return await Result<object>.FailAsync("Invalid role data received from Keycloak");
+                    }
+
+                    var roleId = idElement.GetString();
+                    var roleDescription = descElement.GetString();
+
+                    if (string.IsNullOrEmpty(roleId))
+                    {
+                        return await Result<object>.FailAsync("Role ID cannot be empty");
+                    }
+
+                    var roles = new[]
+                    {
+                        new { id = roleId, name = roleName, description = roleDescription }
+                    };
+
+                    return await Result<object>.SuccessAsync(roles);
+                }
+            }
+            catch (System.Text.Json.JsonException ex)
+            {
+                _trace.Error(ex, "Error parsing Keycloak role response");
+                return await Result<object>.FailAsync("Failed to parse Keycloak role data");
             }
         }
 
@@ -494,10 +605,13 @@ public class KeycloakService : IKeycloakService
     {
         try
         {
+            if (string.IsNullOrEmpty(adminToken))
+                return await Result<string>.FailAsync(_localizer["Failed to obtain Keycloak token"]);
+
             var clientId = await GetClientIdAsync(_keycloakConfig.Client.ClientId, adminToken,
                 cancellationToken);
-            if (adminToken == null)
-                return await Result<string>.FailAsync(_localizer["Failed to obtain Keycloak token"]);
+            if (!clientId.Succeeded || string.IsNullOrEmpty(clientId.Data))
+                return await Result<string>.FailAsync(_localizer["Failed to obtain client ID"]);
 
             var role = await GetKeycloakRoleDetailByRoleName(roleName, adminToken, cancellationToken);
             if (!role.Succeeded)
@@ -515,10 +629,12 @@ public class KeycloakService : IKeycloakService
             if (response.IsSuccessStatusCode)
                 return await Result<string>.SuccessAsync(_localizer["Role assigned to user"]);
 
-            return await Result<string>.FailAsync(_localizer["Failed to assign role to user"]);
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            return await Result<string>.FailAsync($"{_localizer["Failed to assign role to user"]}: {errorContent}");
         }
         catch (Exception e)
         {
+            _trace.Error(e, "Error assigning role to user in Keycloak");
             return await Result<string>.FailAsync(e.Message);
         }
     }

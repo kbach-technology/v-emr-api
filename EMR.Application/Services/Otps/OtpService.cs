@@ -181,7 +181,7 @@ public class OtpService : BaseService<OtpService>, IOtpService
 
             await _sendGridService.SendPinEmailAsync(request.Email, account.FullName,
                 _localizer["Password reset requested"],
-                Codes.GenerateUniqueOtp(),
+                otp.Code, // Fixed: Use the same OTP code that was stored
                 cancellationToken);
             return await Result<string>.SuccessAsync(_localizer["Code Saved"]);
         }
@@ -279,10 +279,10 @@ public class OtpService : BaseService<OtpService>, IOtpService
                 .OrderByDescending(x => x.ExpiredOn)
                 .FirstOrDefaultAsync(x =>
                     x.Email == email
-                    && x.IsValid == false
                     && x.ExpiredOn > _dateTimeService.NowUtc, cancellationToken);
 
-            return otp != null && otp.IsValid
+            // If there's no OTP or the latest OTP is marked as valid, then it's verified
+            return (otp == null || otp.IsValid)
                 ? await Result<string>.SuccessAsync(_localizer["Otp Verified"])
                 : await Result<string>.FailAsync(_localizer["Otp Not Verified"]);
         }
