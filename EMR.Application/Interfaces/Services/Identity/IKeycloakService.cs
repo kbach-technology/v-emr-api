@@ -16,8 +16,10 @@ public interface IKeycloakService
     Task<Result<JObject>> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken);
     Task<Result<string>> UpdateUserAsync(string id, string email, CancellationToken cancellationToken);
     Task<Result<string>> ChangePasswordAsync(ChangePasswordRequest req, CancellationToken cancellationToken);
+
     Task<Result<string>> ChangeEmailAsync(ChangeEmailRequest req,
         CancellationToken cancellationToken);
+
     Task<Result<string>> ResetPasswordAsync(ResetPasswordRequest req, CancellationToken cancellationToken);
     Task<Result<string>> ValidateCurrentPassword(string currentPassword, CancellationToken cancellationToken);
     Task<Result<List<GetUserSessionResponse>>> GetUserSessionAsync(string id, CancellationToken cancellationToken);

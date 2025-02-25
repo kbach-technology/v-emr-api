@@ -44,6 +44,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\EMR.Application\EMR.Application.csproj" />
+        <ProjectReference Include="..\EMR.BackgroundService\EMR.BackgroundService.csproj" />
         <ProjectReference Include="..\EMR.BlogStorage\EMR.BlogStorage.csproj" />
         <ProjectReference Include="..\EMR.Redis\EMR.Redis.csproj" />
         <ProjectReference Include="..\EMR.Seed\EMR.Seed.csproj" />

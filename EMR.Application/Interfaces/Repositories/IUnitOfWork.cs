@@ -1,6 +1,8 @@
 ﻿using EMR.Domain.Contracts;
 using Microsoft.EntityFrameworkCore.Storage;
 
+namespace EMR.Application.Interfaces.Repositories;
+
 public interface IUnitOfWork<TId> : IDisposable, IAsyncDisposable
 {
     IRepositoryAsync<T, TId> Repository<T>() where T : AuditableEntity<TId>;

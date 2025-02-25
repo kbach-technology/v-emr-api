@@ -29,7 +29,7 @@ public abstract class BaseService<T> : IDisposable
         _mapper = mapper;
         _trace = trace;
     }
-    
+
     public void Dispose()
     {
         Dispose(true);

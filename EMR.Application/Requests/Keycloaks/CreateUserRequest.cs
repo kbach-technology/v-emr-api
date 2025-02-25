@@ -11,7 +11,7 @@ public record CreateUserRequest(
     DateTime DateOfBirth,
     string Gender,
     string ProImg);
-    
+
 public record KeyCloakCreateUserRequest(
     string PhoneNumber,
     string Email,

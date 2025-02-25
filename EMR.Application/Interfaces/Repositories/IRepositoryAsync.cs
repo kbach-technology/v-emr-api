@@ -14,7 +14,7 @@ public interface IRepositoryAsync<T, in TId> where T : class, IEntity<TId>
     Task<List<T>> GetPagedResponseAsync(int pageNumber, int pageSize);
 
     Task<T> AddAsync(T entity);
-    
+
     Task<List<T>> AddRangeAsync(IEnumerable<T> entities);
 
     Task UpdateAsync(T entity);

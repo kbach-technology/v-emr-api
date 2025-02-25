@@ -11,7 +11,7 @@ public class LoginRequestValidator : AbstractValidator<LoginRequest>
     public LoginRequestValidator(IStringLocalizer<LoginRequestValidator> localizer)
     {
         _localizer = localizer;
-        
+
         // RuleFor(x => x.Email)
         //     .NotEmpty().WithMessage(_localizer["Email is required."])
         //     .EmailAddress().WithMessage(_localizer["Email is not valid."]);

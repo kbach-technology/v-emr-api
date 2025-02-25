@@ -6,13 +6,14 @@ using System.Security.Claims;
 using System.Text;
 using AspNetCoreRateLimit;
 using EMR.API.Localization;
-using EMR.Application.Atrributes;
+using EMR.Application.Attributes;
 using EMR.Application.Configurations;
 using EMR.Application.Interfaces.Services;
 using EMR.Application.Interfaces.Services.Identity;
 using EMR.Application.Services;
 using EMR.Application.Services.Identity;
 using EMR.Application.Services.Otps;
+using EMR.BackgroundService;
 using EMR.BlogStorage;
 using EMR.Persistence.Contexts;
 using EMR.Redis;
@@ -32,6 +33,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 
 namespace EMR.API.Extentions;
+
 internal static class ServiceCollectionExtensions
 {
     public static AppConfiguration? GetApplicationSettings(
@@ -55,10 +57,10 @@ internal static class ServiceCollectionExtensions
     public static IServiceCollection AddPermissionServices(this IServiceCollection services)
     {
         services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
-        
+
         return services;
     }
-    
+
     internal static IServiceCollection AddServerLocalization(this IServiceCollection services)
     {
         services.TryAddTransient(typeof(IStringLocalizer<>), typeof(ServerLocalizer<>));
@@ -76,6 +78,7 @@ internal static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         services.AddSendGrid();
+        services.AddBackgroundServices();
         services.AddBlobStorage(configuration);
         services.AddRedisCacheStorage(configuration);
         services.AddTransient<IDateTimeService, SystemDateTimeService>();
@@ -191,79 +194,81 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection AddIdentityServer(this IServiceCollection services,
         IConfiguration config)
     {
-        var keycloakConfig = new KeycloakConfiguration(); 
+        var keycloakConfig = new KeycloakConfiguration();
         config.GetSection("Keycloak").Bind(keycloakConfig);
         var key = Encoding.UTF8.GetBytes(keycloakConfig.Secret.Key);
 
         services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(bearer =>
-        {
-            bearer.Authority = $"{keycloakConfig.Client.Authority}/realms/{keycloakConfig.Client.Realm}";
-            bearer.RequireHttpsMetadata = keycloakConfig.Client.RequireHttpsMetadata;
-            bearer.Audience = keycloakConfig.Client.ClientId;
-            bearer.SaveToken = true;
-            bearer.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
-                ValidIssuer = $"{keycloakConfig.Client.Authority}/realms/{keycloakConfig.Client.Realm}",// Ensure this matches the issuer in the token
-                ValidateAudience = false,
-                ValidAudience = keycloakConfig.Client.ClientId,
-                RoleClaimType = ClaimTypes.Role,
-                
-                ClockSkew = TimeSpan.Zero
-            };
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(bearer =>
+            {
+                bearer.Authority = $"{keycloakConfig.Client.Authority}/realms/{keycloakConfig.Client.Realm}";
+                bearer.RequireHttpsMetadata = keycloakConfig.Client.RequireHttpsMetadata;
+                bearer.Audience = keycloakConfig.Client.ClientId;
+                bearer.SaveToken = true;
+                bearer.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidIssuer =
+                        $"{keycloakConfig.Client.Authority}/realms/{keycloakConfig.Client.Realm}", // Ensure this matches the issuer in the token
+                    ValidateAudience = false,
+                    ValidAudience = keycloakConfig.Client.ClientId,
+                    RoleClaimType = ClaimTypes.Role,
 
-            bearer.Events = new JwtBearerEvents
-            {
-                OnMessageReceived = context =>
+                    ClockSkew = TimeSpan.Zero
+                };
+
+                bearer.Events = new JwtBearerEvents
                 {
-                    var accessToken = context.Request.Query["access_token"];
-                    if (!string.IsNullOrEmpty(accessToken) &&
-                        context.HttpContext.Request.Path.StartsWithSegments("/hubs"))
-                        context.Token = accessToken;
-                    return Task.CompletedTask;
-                },
-                OnTokenValidated = async context =>
-                {
-                    var token = context.SecurityToken as JwtSecurityToken;
-                    if (token != null)
+                    OnMessageReceived = context =>
                     {
-                        var introspectionClient = new HttpClient();
-                        var introspectionRequest = new TokenIntrospectionRequest
+                        var accessToken = context.Request.Query["access_token"];
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            context.HttpContext.Request.Path.StartsWithSegments("/hubs"))
+                            context.Token = accessToken;
+                        return Task.CompletedTask;
+                    },
+                    OnTokenValidated = async context =>
+                    {
+                        var token = context.SecurityToken as JwtSecurityToken;
+                        if (token != null)
                         {
-                            Address = $"{keycloakConfig.Client.Authority}/realms/{keycloakConfig.Client.Realm}/protocol/openid-connect/token/introspect",
-                            ClientId = keycloakConfig.Client.ClientId,
-                            ClientSecret = keycloakConfig.Client.Secret,
-                            Token = token.RawData
-                        };
+                            var introspectionClient = new HttpClient();
+                            var introspectionRequest = new TokenIntrospectionRequest
+                            {
+                                Address =
+                                    $"{keycloakConfig.Client.Authority}/realms/{keycloakConfig.Client.Realm}/protocol/openid-connect/token/introspect",
+                                ClientId = keycloakConfig.Client.ClientId,
+                                ClientSecret = keycloakConfig.Client.Secret,
+                                Token = token.RawData
+                            };
 
-                        var response = await introspectionClient.IntrospectTokenAsync(introspectionRequest);
-                        if (!response.IsActive)
-                            context.Fail(JsonConvert.SerializeObject(new
+                            var response = await introspectionClient.IntrospectTokenAsync(introspectionRequest);
+                            if (!response.IsActive)
+                                context.Fail(JsonConvert.SerializeObject(new
                                 { message = "Token is not active", succeeded = false }));
-                    }
-                },
-                OnAuthenticationFailed = context =>
-                {
-                    if (context.Exception is SecurityTokenExpiredException)
+                        }
+                    },
+                    OnAuthenticationFailed = context =>
                     {
-                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        context.Response.ContentType = "application/json";
-                        var authFailedResponse = JsonConvert.SerializeObject(new
+                        if (context.Exception is SecurityTokenExpiredException)
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            context.Response.ContentType = "application/json";
+                            var authFailedResponse = JsonConvert.SerializeObject(new
                             { message = "The Token is expired.", succeeded = false });
-                        return context.Response.WriteAsync(authFailedResponse);
-                    }
+                            return context.Response.WriteAsync(authFailedResponse);
+                        }
 #if DEBUG
-                    context.NoResult();
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    context.Response.ContentType = "text/plain";
-                    return context.Response.WriteAsync(context.Exception.ToString());
+                        context.NoResult();
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        context.Response.ContentType = "text/plain";
+                        return context.Response.WriteAsync(context.Exception.ToString());
 #else
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         context.Response.ContentType = "application/json";
@@ -271,34 +276,35 @@ internal static class ServiceCollectionExtensions
  "An unhandled error has occurred.", succeeded = false });
                         return context.Response.WriteAsync(authFailedResp);
 #endif
-                },
-                OnChallenge = context =>
-                {
-                    context.HandleResponse();
-                    if (!context.Response.HasStarted)
+                    },
+                    OnChallenge = context =>
                     {
-                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        context.Response.ContentType = "application/json";
-                        var challengeResponse =
-                            JsonConvert.SerializeObject(new { message = "You are not Authorized.", succeeded = false });
-                        return context.Response.WriteAsync(challengeResponse);
-                    }
+                        context.HandleResponse();
+                        if (!context.Response.HasStarted)
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            context.Response.ContentType = "application/json";
+                            var challengeResponse =
+                                JsonConvert.SerializeObject(new
+                                { message = "You are not Authorized.", succeeded = false });
+                            return context.Response.WriteAsync(challengeResponse);
+                        }
 
-                    return Task.CompletedTask;
-                },
-                OnForbidden = context =>
-                {
-                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    context.Response.ContentType = "application/json";
-                    var forbiddenResponse = JsonConvert.SerializeObject(new Problems
+                        return Task.CompletedTask;
+                    },
+                    OnForbidden = context =>
                     {
-                        Message = "You are not authorized to access this resource.",
-                        Succeeded = false
-                    });
-                    return context.Response.WriteAsync(forbiddenResponse);
-                }
-            };
-        });
+                        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        context.Response.ContentType = "application/json";
+                        var forbiddenResponse = JsonConvert.SerializeObject(new Problems
+                        {
+                            Message = "You are not authorized to access this resource.",
+                            Succeeded = false
+                        });
+                        return context.Response.WriteAsync(forbiddenResponse);
+                    }
+                };
+            });
 
 
         services.AddAuthorization(options =>
@@ -313,13 +319,14 @@ internal static class ServiceCollectionExtensions
                         policy.Requirements.Add(new PermissionRequirement(new[] { propertyValue })));
             }
         });
-        
+
         services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
         return services;
     }
-    
-    public static IServiceCollection AddKeyloakConfiguration(this IServiceCollection services, IConfiguration configuration)
+
+    public static IServiceCollection AddKeyloakConfiguration(this IServiceCollection services,
+        IConfiguration configuration)
     {
         var keycloakConfig = new KeycloakConfiguration();
         configuration.GetSection("Keycloak").Bind(keycloakConfig);

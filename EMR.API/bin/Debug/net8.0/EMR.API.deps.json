@@ -10,6 +10,7 @@
         "dependencies": {
           "AspNetCoreRateLimit": "5.0.0",
           "EMR.Application": "1.0.0",
+          "EMR.BackgroundService": "1.0.0",
           "EMR.BlogStorage": "1.0.0",
           "EMR.Redis": "1.0.0",
           "EMR.SMS": "1.0.0",
@@ -1573,6 +1574,14 @@
           }
         }
       },
+      "EMR.BackgroundService/1.0.0": {
+        "dependencies": {
+          "EMR.Application": "1.0.0"
+        },
+        "runtime": {
+          "EMR.BackgroundService.dll": {}
+        }
+      },
       "EMR.BlogStorage/1.0.0": {
         "dependencies": {
           "AWSSDK.Extensions.NETCore.Setup": "3.7.301",
@@ -2753,6 +2762,11 @@
       "hashPath": "system.threading.channels.8.0.0.nupkg.sha512"
     },
     "EMR.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "EMR.BackgroundService/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -5,12 +5,9 @@ namespace EMR.Application.Responses.Roles;
 
 public class KeycloakResource
 {
-    [JsonProperty("_id")]
-    public string Id { get; set; }
+    [JsonProperty("_id")] public string Id { get; set; }
 
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonProperty("name")] public string Name { get; set; }
 
-    [JsonProperty("scopes")]
-    public List<KeycloakScope> Scopes { get; set; } = new List<KeycloakScope>();
+    [JsonProperty("scopes")] public List<KeycloakScope> Scopes { get; set; } = new List<KeycloakScope>();
 }

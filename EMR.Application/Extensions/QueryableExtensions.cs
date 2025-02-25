@@ -60,7 +60,7 @@ public static class QueryableExtensions
         return condition ? query.Where(predicate) : query;
     }
 
-    
+
     // How to use ApplyOrdering:
     // var query = _unitOfWork.Repository<Device>().Entities
     //     .ApplyOrdering(request.OrderBy, request.Ascending);
@@ -158,7 +158,7 @@ public static class QueryableExtensions
         return value == null ? query : query.Where(predicate);
     }
 
-    
+
     // How to use WhereIfNotNull:
     // var query = _unitOfWork.Repository<Device>().Entities
     //     .WhereIfNotNull(request.Platform, x => x.Platform == request.Platform)

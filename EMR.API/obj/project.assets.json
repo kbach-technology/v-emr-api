@@ -2744,6 +2744,19 @@
           "bin/placeholder/EMR.Application.dll": {}
         }
       },
+      "EMR.BackgroundService/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "EMR.Application": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/EMR.BackgroundService.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EMR.BackgroundService.dll": {}
+        }
+      },
       "EMR.BlogStorage/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -6880,6 +6893,11 @@
       "path": "../EMR.Application/EMR.Application.csproj",
       "msbuildProject": "../EMR.Application/EMR.Application.csproj"
     },
+    "EMR.BackgroundService/1.0.0": {
+      "type": "project",
+      "path": "../EMR.BackgroundService/EMR.BackgroundService.csproj",
+      "msbuildProject": "../EMR.BackgroundService/EMR.BackgroundService.csproj"
+    },
     "EMR.BlogStorage/1.0.0": {
       "type": "project",
       "path": "../EMR.BlogStorage/EMR.BlogStorage.csproj",
@@ -6925,6 +6943,7 @@
     "net8.0": [
       "AspNetCoreRateLimit >= 5.0.0",
       "EMR.Application >= 1.0.0",
+      "EMR.BackgroundService >= 1.0.0",
       "EMR.BlogStorage >= 1.0.0",
       "EMR.Redis >= 1.0.0",
       "EMR.SMS >= 1.0.0",
@@ -6984,6 +7003,9 @@
           "projectReferences": {
             "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
               "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
+            },
+            "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj": {
+              "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj"
             },
             "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj": {
               "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj"

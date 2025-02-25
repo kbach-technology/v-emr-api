@@ -1,11 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using EMR.Application.Interfaces.Services.Identity;
 using EMR.Application.Requests.Identity;
 using EMR.Application.Requests.Keycloaks;
@@ -13,7 +17,10 @@ using EMR.Application.Responses.Identity;
 using EMR.Domain.Entities.Users;
 using EMR.Shared.Configurations;
 using EMR.Shared.Interfaces;
+using EMR.Shared.Wrapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -53,7 +60,6 @@ public class KeycloakService : IKeycloakService
         _redisStorageService = redisStorageService;
         _trace = trace;
     }
-
 
     public async Task<Result<string>> CreatAsync(KeyCloakCreateUserRequest req, CancellationToken cancellationToken)
     {
@@ -283,7 +289,8 @@ public class KeycloakService : IKeycloakService
                 $"{_keycloakConfig.Client.Authority}/admin/realms/{_keycloakConfig.Client.Realm}/users/{req.UserId}");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Data);
             request.Content =
-                new StringContent(JsonConvert.SerializeObject(new { 
+                new StringContent(JsonConvert.SerializeObject(new
+                {
                     username = req.NewEmail,
                     email = req.NewEmail,
                     emailVerified = true
@@ -338,7 +345,7 @@ public class KeycloakService : IKeycloakService
             if (!response.IsSuccessStatusCode)
             {
                 var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                return await Result<string>.FailAsync(response.StatusCode == HttpStatusCode.Unauthorized 
+                return await Result<string>.FailAsync(response.StatusCode == HttpStatusCode.Unauthorized
                     ? _localizer["Password is incorrect"]
                     : $"{_localizer["Failed to validate password"]}: {errorContent}");
             }
@@ -400,7 +407,8 @@ public class KeycloakService : IKeycloakService
         {
             var token = await GetKeycloakAdminCliTokenAsync(cancellationToken);
             if (!token.Succeeded)
-                return await Result<List<GetUserSessionResponse>>.FailAsync(_localizer["Failed to obtain Keycloak token"]);
+                return await Result<List<GetUserSessionResponse>>.FailAsync(
+                    _localizer["Failed to obtain Keycloak token"]);
 
             var client = _httpClientFactory.CreateClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data);
@@ -433,7 +441,7 @@ public class KeycloakService : IKeycloakService
     {
         try
         {
-            if (string.IsNullOrEmpty(_keycloakConfig.Admin.ClientId) || 
+            if (string.IsNullOrEmpty(_keycloakConfig.Admin.ClientId) ||
                 string.IsNullOrEmpty(_keycloakConfig.Admin.Secret) ||
                 string.IsNullOrEmpty(_keycloakConfig.Admin.Username) ||
                 string.IsNullOrEmpty(_keycloakConfig.Admin.Password))
@@ -506,7 +514,7 @@ public class KeycloakService : IKeycloakService
         request.Headers.Authorization =
             new AuthenticationHeaderValue("Bearer", adminToken);
 
-        try 
+        try
         {
             var response = await client.SendAsync(request, cancellationToken);
 
@@ -568,7 +576,7 @@ public class KeycloakService : IKeycloakService
                 {
                     var root = document.RootElement;
 
-                    if (!root.TryGetProperty("id", out var idElement) || 
+                    if (!root.TryGetProperty("id", out var idElement) ||
                         !root.TryGetProperty("description", out var descElement))
                     {
                         return await Result<object>.FailAsync("Invalid role data received from Keycloak");

@@ -180,8 +180,8 @@ public class AppVersionService : IAppVersionService
         if (string.IsNullOrWhiteSpace(request.VersionNumber))
             return Result<string>.Fail(_localizer["Version Number is required"]);
 
-        if (string.IsNullOrWhiteSpace(request.BuildNumber.ToString()))
-            return Result<string>.Fail(_localizer["Build Number is required"]);
+        if (request.BuildNumber <= 0)
+            return Result<string>.Fail(_localizer["Build Number must be greater than 0"]);
 
         if (!Enum.IsDefined(typeof(Platform), request.Platform))
             return Result<string>.Fail(_localizer["Invalid Platform"]);

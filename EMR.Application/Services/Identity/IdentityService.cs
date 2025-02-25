@@ -1,3 +1,4 @@
+using AutoMapper;
 using EMR.Application.Abstractions;
 using EMR.Application.Interfaces.Services.Identity;
 using EMR.Application.Requests.Identity;
@@ -7,6 +8,9 @@ using EMR.Domain.Entities.Users;
 using EMR.Domain.Shared;
 using EMR.Shared.Constants.Prefix;
 using EMR.Shared.Interfaces;
+using EMR.Shared.Wrapper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Serilog;
 
 namespace EMR.Application.Services.Identity;
@@ -97,9 +101,11 @@ public class IdentityService : BaseService<IdentityService>, IIdentityService
             await _unitOfWork.Repository<User>().UpdateAsync(user);
             await _unitOfWork.Commit(cancellationToken);
 
-            await _keycloakService.UpdateUserAsync(request.Id, request.Email, cancellationToken);
+            var keycloakResult = await _keycloakService.UpdateUserAsync(request.Id, request.Email, cancellationToken);
+            if (!keycloakResult.Succeeded)
+                _trace.Warning($"Keycloak update failed for user {request.Id}: {keycloakResult.Message}");
 
-            return await Result<string>.SuccessAsync(user.Id);
+            return await Result<string>.SuccessAsync(user.Id, _localizer["User updated"]);
         }
         catch (Exception ex)
         {
@@ -112,8 +118,8 @@ public class IdentityService : BaseService<IdentityService>, IIdentityService
     {
         try
         {
-            var user = _unitOfWork.Repository<User>().Entities
-                .FirstOrDefault(x => x.Id == id);
+            var user = await _unitOfWork.Repository<User>().Entities
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
             if (user == null)
                 return await Result<string>.FailAsync(_localizer["User not found"]);
@@ -123,7 +129,7 @@ public class IdentityService : BaseService<IdentityService>, IIdentityService
             await _unitOfWork.Repository<User>().UpdateAsync(user);
             await _unitOfWork.Commit(cancellationToken);
 
-            return await Result<string>.SuccessAsync(user.Id);
+            return await Result<string>.SuccessAsync(user.Id, _localizer["User status updated"]);
         }
         catch (Exception ex)
         {
@@ -164,7 +170,7 @@ public class IdentityService : BaseService<IdentityService>, IIdentityService
 
     public async Task<Result<GetUserResponse>> GetUserAsync(string id, CancellationToken cancellationToken)
     {
-        var data = _unitOfWork.Repository<User>().Entities
+        var data = await _unitOfWork.Repository<User>().Entities
             .Select(x => new GetUserResponse
             {
                 Id = x.Id,
@@ -182,7 +188,10 @@ public class IdentityService : BaseService<IdentityService>, IIdentityService
                 LastModifiedOn = x.LastModifiedOn
             })
             .AsNoTracking()
-            .FirstOrDefault(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+        if (data == null)
+            return await Result<GetUserResponse>.FailAsync(_localizer["User not found"]);
 
         return await Result<GetUserResponse>.SuccessAsync(data, _localizer["User found"]);
     }

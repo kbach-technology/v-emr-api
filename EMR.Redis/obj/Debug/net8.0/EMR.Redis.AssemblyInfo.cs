@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EMR.Redis")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8feb59714b534a4fe7300a83ab044301c4a7d957")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6459e19442054fd5c374427c1096a8c626e2febd")]
 [assembly: System.Reflection.AssemblyProductAttribute("EMR.Redis")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EMR.Redis")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
