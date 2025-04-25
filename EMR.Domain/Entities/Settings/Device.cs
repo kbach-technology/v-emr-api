@@ -13,7 +13,7 @@ public class Device : AuditableEntity<string>
 
     [Column(TypeName = "text")] [Required] public string DeviceToken { get; set; }
 
-    public Platform Platform { get; set; }
+    public PlatformType PlatformType { get; set; }
 
     [Column(TypeName = "text")] public string DeviceName { get; set; }
 

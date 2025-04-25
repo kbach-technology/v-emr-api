@@ -399,3 +399,5 @@
 /Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/bin/Debug/net8.0/EMR.SendGrid.pdb
 /Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/bin/Debug/net8.0/EMR.BackgroundService.dll
 /Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/bin/Debug/net8.0/EMR.BackgroundService.pdb
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/bin/Debug/net8.0/Polly.dll
+/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/bin/Debug/net8.0/Polly.Core.dll

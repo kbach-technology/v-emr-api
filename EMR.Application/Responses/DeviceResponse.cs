@@ -6,7 +6,7 @@ public record DeviceResponse(
     string Id,
     string UserId,
     string DeviceToken,
-    Platform Platform,
+    PlatformType PlatformType,
     string DeviceName,
     string Manufacturer,
     string UserAgent,

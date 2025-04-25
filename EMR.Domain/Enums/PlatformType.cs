@@ -1,6 +1,6 @@
 ﻿namespace EMR.Domain.Enums;
 
-public enum Platform
+public enum PlatformType
 {
     Web = 1,
 

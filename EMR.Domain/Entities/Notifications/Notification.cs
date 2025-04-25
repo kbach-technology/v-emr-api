@@ -20,7 +20,7 @@ public class Notification
 
     public bool IsImportant { get; set; }
 
-    public NotificationTypeEnum Type { get; set; }
+    public Enums.NotificationTypeEnum TypeEnum { get; set; }
 
     public NotificationType NotificationType { get; set; }
 

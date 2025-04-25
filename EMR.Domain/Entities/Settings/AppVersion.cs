@@ -7,7 +7,7 @@ namespace EMR.Domain.Entities.Settings;
 
 public class AppVersion : AuditableEntity<string>
 {
-    [Required] public Platform Platform { get; set; }
+    [Required] public PlatformType PlatformType { get; set; }
 
     [Required] public string VersionNumber { get; set; }
 

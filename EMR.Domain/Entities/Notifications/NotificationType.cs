@@ -6,7 +6,7 @@ namespace EMR.Domain.Entities.Notifications;
 
 public class NotificationType : AuditableEntity<string>
 {
-    public NotificationTypeEnum NotificationTypeEnum { get; set; }
+    public Enums.NotificationTypeEnum NotificationTypeEnum { get; set; }
 
     public string Name { get; set; }
 

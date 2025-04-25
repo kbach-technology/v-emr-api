@@ -5,7 +5,7 @@ namespace EMR.Application.Requests;
 public record AppVersionRequest(
     string VersionNumber,
     int BuildNumber,
-    Platform Platform,
+    PlatformType PlatformType,
     string UpdateMessage,
     bool IsForceUpdate
 );

@@ -42,7 +42,7 @@ public class AppVersionService : IAppVersionService
                 Id = Guid.NewGuid().ToString(),
                 VersionNumber = request.VersionNumber,
                 BuildNumber = request.BuildNumber,
-                Platform = request.Platform,
+                PlatformType = request.PlatformType,
                 UpdateMessage = request.UpdateMessage,
                 IsForceUpdate = request.IsForceUpdate,
                 ReleaseDate = _dateTimeService.NowUtc
@@ -158,7 +158,7 @@ public class AppVersionService : IAppVersionService
         try
         {
             var appVersion = await _unitOfWork.Repository<AppVersion>().Entities
-                .Where(x => x.Platform == (Platform)platform)
+                .Where(x => x.PlatformType == (PlatformType)platform)
                 .OrderByDescending(x => x.ReleaseDate)
                 .FirstOrDefaultAsync();
 
@@ -183,7 +183,7 @@ public class AppVersionService : IAppVersionService
         if (request.BuildNumber <= 0)
             return Result<string>.Fail(_localizer["Build Number must be greater than 0"]);
 
-        if (!Enum.IsDefined(typeof(Platform), request.Platform))
+        if (!Enum.IsDefined(typeof(PlatformType), request.PlatformType))
             return Result<string>.Fail(_localizer["Invalid Platform"]);
 
         return Result<string>.Success();
@@ -199,7 +199,7 @@ public class AppVersionService : IAppVersionService
     {
         appVersion.VersionNumber = request.VersionNumber;
         appVersion.BuildNumber = request.BuildNumber;
-        appVersion.Platform = request.Platform;
+        appVersion.PlatformType = request.PlatformType;
         appVersion.UpdateMessage = request.UpdateMessage;
         appVersion.IsForceUpdate = request.IsForceUpdate;
         appVersion.ReleaseDate = _dateTimeService.NowUtc;

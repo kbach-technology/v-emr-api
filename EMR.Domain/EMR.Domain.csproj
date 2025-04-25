@@ -8,4 +8,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5"/>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Entities\Addresses\" />
+    </ItemGroup>
 </Project>

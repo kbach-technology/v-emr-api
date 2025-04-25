@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "f1M5i210u5M=",
+  "dgSpecHash": "8Yhh6FD7Ujo=",
   "success": true,
   "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj",
   "expectedPackageFiles": [
@@ -85,6 +85,8 @@
     "/Users/rathavithey/.nuget/packages/npgsql/8.0.3/npgsql.8.0.3.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/npgsql.entityframeworkcore.postgresql/8.0.4/npgsql.entityframeworkcore.postgresql.8.0.4.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/pipelines.sockets.unofficial/2.2.8/pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
+    "/Users/rathavithey/.nuget/packages/polly/8.5.2/polly.8.5.2.nupkg.sha512",
+    "/Users/rathavithey/.nuget/packages/polly.core/8.5.2/polly.core.8.5.2.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/serilog/4.0.1/serilog.4.0.1.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/serilog.enrichers.environment/2.2.0/serilog.enrichers.environment.2.2.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/serilog.extensions.hosting/4.2.0/serilog.extensions.hosting.4.2.0.nupkg.sha512",

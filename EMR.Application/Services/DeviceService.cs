@@ -29,7 +29,7 @@ public class DeviceService : BaseService<DeviceService>, IDeviceService
             var existing = await _unitOfWork.Repository<Device>().Entities
                 .FirstOrDefaultAsync(x =>
                     x.UserId == _currentUserService.UserId
-                    && x.Platform == request.Platform, cancellationToken);
+                    && x.PlatformType == request.PlatformType, cancellationToken);
             if (existing != null)
             {
                 existing.UserId = _currentUserService.UserId;
@@ -93,7 +93,7 @@ public class DeviceService : BaseService<DeviceService>, IDeviceService
                     c.Id,
                     c.UserId,
                     c.DeviceToken,
-                    c.Platform,
+                    c.PlatformType,
                     c.DeviceName,
                     c.Manufacturer,
                     c.UserAgent,
@@ -103,7 +103,7 @@ public class DeviceService : BaseService<DeviceService>, IDeviceService
                     c.CreatedOn
                 )
             )
-            .ToPaginatedListAsync(pageNumber, pageSize);
+            .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
 
         return devices;
     }

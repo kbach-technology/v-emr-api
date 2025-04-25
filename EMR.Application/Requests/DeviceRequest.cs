@@ -4,7 +4,7 @@ namespace EMR.Application.Requests;
 
 public record DeviceRequest(
     string DeviceToken,
-    Platform Platform,
+    PlatformType PlatformType,
     string DeviceName,
     string Manufacturer,
     string UserAgent,

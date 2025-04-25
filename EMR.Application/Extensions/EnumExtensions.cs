@@ -32,7 +32,7 @@ public static class EnumExtensions
 
         throw new ArgumentException($"Cannot convert {value} to enum {typeof(T)}");
     }
-
+    
     public static bool TryParseEnum<T>(this string value, out T result) where T : struct
     {
         return Enum.TryParse(value, true, out result);

@@ -6,7 +6,7 @@ public record AppVersionResponse(
     string Id,
     string VersionNumber,
     int BuildNumber,
-    Platform Platform,
+    PlatformType PlatformType,
     string UpdateMessage,
     bool IsForceUpdate,
     DateTime ReleaseDate,
