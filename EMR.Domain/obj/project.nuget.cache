@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "G+h8IId8YME=",
+  "dgSpecHash": "5rN5B/P/F40=",
   "success": true,
-  "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj",
+  "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj",
   "expectedPackageFiles": [
     "/Users/rathavithey/.nuget/packages/microsoft.aspnetcore.cryptography.internal/8.0.5/microsoft.aspnetcore.cryptography.internal.8.0.5.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/8.0.5/microsoft.aspnetcore.cryptography.keyderivation.8.0.5.nupkg.sha512",
@@ -22,7 +22,9 @@
     "/Users/rathavithey/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/microsoft.extensions.options/8.0.2/microsoft.extensions.options.8.0.2.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
-    "/Users/rathavithey/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512"
+    "/Users/rathavithey/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
+    "/Users/rathavithey/.nuget/packages/microsoft.netcore.app.ref/8.0.16/microsoft.netcore.app.ref.8.0.16.nupkg.sha512",
+    "/Users/rathavithey/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.16/microsoft.aspnetcore.app.ref.8.0.16.nupkg.sha512"
   ],
   "logs": []
 }

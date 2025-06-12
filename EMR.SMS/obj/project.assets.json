@@ -4050,11 +4050,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj",
+      "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj",
       "projectName": "EMR.SMS",
-      "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj",
+      "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj",
       "packagesPath": "/Users/rathavithey/.nuget/packages/",
-      "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SMS/obj/",
+      "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SMS/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -4070,8 +4070,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
-              "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
+            "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
+              "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
             }
           }
         }
@@ -4080,7 +4080,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -4102,12 +4108,22 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.16, 8.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.16, 8.0.16]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

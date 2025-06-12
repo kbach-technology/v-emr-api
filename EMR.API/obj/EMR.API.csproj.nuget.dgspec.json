@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/EMR.API.csproj": {}
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.API/EMR.API.csproj": {}
   },
   "projects": {
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/EMR.API.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.API/EMR.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/EMR.API.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.API/EMR.API.csproj",
         "projectName": "EMR.API",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/EMR.API.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.API/EMR.API.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -27,29 +27,29 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj"
               }
             }
           }
@@ -58,7 +58,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -174,6 +180,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.osx-arm64",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -182,18 +202,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj",
         "projectName": "EMR.Application",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -209,14 +229,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj"
               }
             }
           }
@@ -225,7 +245,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -335,23 +361,33 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj",
         "projectName": "EMR.BackgroundService",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BackgroundService/EMR.BackgroundService.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BackgroundService/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BackgroundService/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -367,8 +403,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
               }
             }
           }
@@ -377,7 +413,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -393,23 +435,33 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj",
         "projectName": "EMR.BlogStorage",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BlogStorage/EMR.BlogStorage.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.BlogStorage/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.BlogStorage/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -425,8 +477,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
               }
             }
           }
@@ -435,7 +487,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -469,23 +527,33 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj",
         "projectName": "EMR.Domain",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -507,7 +575,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -533,23 +607,33 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj",
         "projectName": "EMR.Persistence",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Persistence/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Persistence/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -565,11 +649,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj"
               }
             }
           }
@@ -578,7 +662,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -630,23 +720,33 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj",
         "projectName": "EMR.Redis",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Redis/EMR.Redis.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Redis/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Redis/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -662,8 +762,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
               }
             }
           }
@@ -672,7 +772,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -694,23 +800,33 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj",
         "projectName": "EMR.Seed",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Seed/EMR.Seed.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Seed/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Seed/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -726,14 +842,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Domain/EMR.Domain.csproj"
               },
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj"
               }
             }
           }
@@ -742,7 +858,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -758,23 +880,33 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj",
         "projectName": "EMR.SendGrid",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SendGrid/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SendGrid/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -790,8 +922,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
               }
             }
           }
@@ -800,7 +932,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -826,23 +964,33 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj",
         "projectName": "GOJOR.Shared",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/EMR.Shared.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Shared/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Shared/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -864,7 +1012,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -894,23 +1048,33 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj": {
+    "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj",
+        "projectUniqueName": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj",
         "projectName": "EMR.SMS",
-        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj",
+        "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SMS/EMR.SMS.csproj",
         "packagesPath": "/Users/rathavithey/.nuget/packages/",
-        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SMS/obj/",
+        "outputPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SMS/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rathavithey/.nuget/NuGet/NuGet.Config"
@@ -926,8 +1090,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
-                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
+              "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj": {
+                "projectPath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Application/EMR.Application.csproj"
               }
             }
           }
@@ -936,7 +1100,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -958,12 +1128,22 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

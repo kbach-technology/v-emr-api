@@ -1,0 +1,5 @@
+2025-05-21 14:14:36.661 +07:00 [INF] Now listening on: http://localhost:5000
+2025-05-21 14:14:36.693 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-21 14:14:36.694 +07:00 [INF] Hosting environment: Production
+2025-05-21 14:14:36.694 +07:00 [INF] Content root path: /Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.API
+2025-05-21 14:14:43.654 +07:00 [INF] Application is shutting down...

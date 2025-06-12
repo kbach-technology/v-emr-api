@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qxGF4xfD8Kg=",
+  "dgSpecHash": "qkqqXCH8sus=",
   "success": true,
-  "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj",
+  "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.SendGrid/EMR.SendGrid.csproj",
   "expectedPackageFiles": [
     "/Users/rathavithey/.nuget/packages/automapper/11.0.0/automapper.11.0.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/11.0.0/automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
@@ -108,7 +108,9 @@
     "/Users/rathavithey/.nuget/packages/system.security.principal.windows/4.5.0/system.security.principal.windows.4.5.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/system.text.encodings.web/4.7.0/system.text.encodings.web.4.7.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/system.text.json/4.6.0/system.text.json.4.6.0.nupkg.sha512",
-    "/Users/rathavithey/.nuget/packages/system.threading.channels/8.0.0/system.threading.channels.8.0.0.nupkg.sha512"
+    "/Users/rathavithey/.nuget/packages/system.threading.channels/8.0.0/system.threading.channels.8.0.0.nupkg.sha512",
+    "/Users/rathavithey/.nuget/packages/microsoft.netcore.app.ref/8.0.16/microsoft.netcore.app.ref.8.0.16.nupkg.sha512",
+    "/Users/rathavithey/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.16/microsoft.aspnetcore.app.ref.8.0.16.nupkg.sha512"
   ],
   "logs": []
 }

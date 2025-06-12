@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ri5PfxGT++A=",
+  "dgSpecHash": "I0PxCU/S9V0=",
   "success": true,
-  "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/MD-EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj",
+  "projectFilePath": "/Users/rathavithey/Documents/MeetDoctorApp/EMR/Code/md-emr/EMR.Persistence/EMR.Persistence.csproj",
   "expectedPackageFiles": [
     "/Users/rathavithey/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/identitymodel/4.4.0/identitymodel.4.4.0.nupkg.sha512",
@@ -92,7 +92,9 @@
     "/Users/rathavithey/.nuget/packages/system.text.encoding.codepages/6.0.0/system.text.encoding.codepages.6.0.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/system.text.encodings.web/8.0.0/system.text.encodings.web.8.0.0.nupkg.sha512",
     "/Users/rathavithey/.nuget/packages/system.text.json/8.0.0/system.text.json.8.0.0.nupkg.sha512",
-    "/Users/rathavithey/.nuget/packages/system.threading.channels/6.0.0/system.threading.channels.6.0.0.nupkg.sha512"
+    "/Users/rathavithey/.nuget/packages/system.threading.channels/6.0.0/system.threading.channels.6.0.0.nupkg.sha512",
+    "/Users/rathavithey/.nuget/packages/microsoft.netcore.app.ref/8.0.16/microsoft.netcore.app.ref.8.0.16.nupkg.sha512",
+    "/Users/rathavithey/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.16/microsoft.aspnetcore.app.ref.8.0.16.nupkg.sha512"
   ],
   "logs": []
 }
