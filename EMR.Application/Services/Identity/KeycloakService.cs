@@ -13,10 +13,12 @@ using EMR.Application.Responses.Identity;
 using EMR.Domain.Entities.Users;
 using EMR.Shared.Configurations;
 using EMR.Shared.Interfaces;
+using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using RefreshTokenRequest = EMR.Application.Requests.Keycloaks.RefreshTokenRequest;
 
 namespace EMR.Application.Services.Identity;
 
@@ -164,6 +166,14 @@ public class KeycloakService : IKeycloakService
     {
         try
         {
+            // Try to get from Redis first
+            var cacheKey = $"refresh_token:{request.RefreshToken}";
+            var cached = await _redisStorageService.GetAsync<JObject>(cacheKey);
+            if (cached != null)
+            {
+                return await Result<JObject>.SuccessAsync(cached);
+            }
+
             var client = _httpClientFactory.CreateClient();
             var req = new HttpRequestMessage(HttpMethod.Post,
                 $"{_keycloakConfig.Client.TokenEndpoint}");
@@ -185,6 +195,10 @@ public class KeycloakService : IKeycloakService
             {
                 var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
                 var responseJson = JObject.Parse(responseContent);
+
+                // Cache the response in Redis for the token's lifetime
+                int expiresIn = responseJson["expires_in"]?.Value<int>() ?? 300; // default 5 min
+                await _redisStorageService.SetAsync(cacheKey, responseJson, TimeSpan.FromSeconds(expiresIn));
 
                 return await Result<JObject>.SuccessAsync(responseJson);
             }

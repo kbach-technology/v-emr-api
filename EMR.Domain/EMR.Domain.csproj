@@ -9,6 +9,6 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5"/>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Entities\Addresses\" />
+      <Folder Include="Entities\Clinics\" />
     </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿using EMR.Domain.Contracts;
+using EMR.Domain.Entities.Addresses;
 using EMR.Domain.Entities.Settings;
 using EMR.Domain.Entities.Users;
 using EMR.Persistence.Configurations;
@@ -26,6 +27,12 @@ public class AppDbContext : AuditableContext
     public DbSet<User> Users { get; set; }
     public DbSet<UserSession> UserSessions { get; set; }
 
+    // Address
+    public DbSet<Province> Provinces { get; set; }
+    public DbSet<District> Districts { get; set; }
+    public DbSet<Commune> Communes { get; set; }
+    public DbSet<Village> Villages { get; set; }
+
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
@@ -52,8 +59,8 @@ public class AppDbContext : AuditableContext
     {
         builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new UserSessionConfiguration());
-        
-        
+
+
         foreach (var property in builder.Model.GetEntityTypes()
                      .SelectMany(t => t.GetProperties())
                      .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
