@@ -52,71 +52,87 @@ public class SendGridService : ISendGridService
     public async Task SendPinEmailAsync(string to, string toUsername, string subject, string body,
         CancellationToken cancellationToken)
     {
-        var smtpSettings = _configuration.GetSection("MailConfiguration");
-
-        var smtpClient = new SmtpClient(smtpSettings["Host"])
+        // Fire-and-forget: Send email in background without blocking API response
+        _ = Task.Run(async () =>
         {
-            Port = int.Parse(smtpSettings["Port"]),
-            Credentials = new NetworkCredential(smtpSettings["Username"], smtpSettings["Password"]),
-            EnableSsl = true,
-            UseDefaultCredentials = false,
-            DeliveryMethod = SmtpDeliveryMethod.Network
-        };
+            var smtpSettings = _configuration.GetSection("MailConfiguration");
 
-        var mailMessage = new MailMessage
-        {
-            From = new MailAddress(smtpSettings["Username"], "GOJOR", Encoding.UTF8),
-            Subject = subject,
-            Body = TemplatePasswordResetEmail(to, toUsername, body).Body,
-            IsBodyHtml = true
-        };
+            using var smtpClient = new SmtpClient(smtpSettings["Host"])
+            {
+                Port = int.Parse(smtpSettings["Port"]),
+                Credentials = new NetworkCredential(smtpSettings["Username"], smtpSettings["Password"]),
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Timeout = 30000 // 30 second timeout to prevent hanging
+            };
 
-        mailMessage.To.Add(to);
+            using var mailMessage = new MailMessage
+            {
+                From = new MailAddress(smtpSettings["Username"], "GOJOR", Encoding.UTF8),
+                Subject = subject,
+                Body = TemplatePasswordResetEmail(to, toUsername, body).Body,
+                IsBodyHtml = true
+            };
 
-        try
-        {
-            await smtpClient.SendMailAsync(mailMessage, cancellationToken);
-            _trace.Information("Email sent successfully");
-        }
-        catch (Exception ex)
-        {
-            _trace.Error(ex, ex.Message);
-        }
+            mailMessage.To.Add(to);
+
+            try
+            {
+                await smtpClient.SendMailAsync(mailMessage);
+                _trace.Information($"Email sent successfully to {to}");
+            }
+            catch (Exception ex)
+            {
+                _trace.Error(ex, $"Failed to send email to {to}: {ex.Message}");
+            }
+        }, cancellationToken);
+
+        // Return immediately without waiting for email to send
+        await Task.CompletedTask;
     }
 
     public async Task SendUsernameEmailAsync(string to, string toUsername, string subject, string body,
         CancellationToken cancellationToken)
     {
-        var smtpSettings = _configuration.GetSection("MailConfiguration");
-
-        var smtpClient = new SmtpClient(smtpSettings["Host"])
+        // Fire-and-forget: Send email in background without blocking API response
+        _ = Task.Run(async () =>
         {
-            Port = int.Parse(smtpSettings["Port"]),
-            Credentials = new NetworkCredential(smtpSettings["Username"], smtpSettings["Password"]),
-            EnableSsl = true,
-            UseDefaultCredentials = false,
-            DeliveryMethod = SmtpDeliveryMethod.Network
-        };
+            var smtpSettings = _configuration.GetSection("MailConfiguration");
 
-        var mailMessage = new MailMessage
-        {
-            From = new MailAddress(smtpSettings["Username"], "GOJOR", Encoding.UTF8),
-            Subject = subject,
-            Body = TemplateSendUserToEmail(to, toUsername).Body,
-            IsBodyHtml = true
-        };
+            using var smtpClient = new SmtpClient(smtpSettings["Host"])
+            {
+                Port = int.Parse(smtpSettings["Port"]),
+                Credentials = new NetworkCredential(smtpSettings["Username"], smtpSettings["Password"]),
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Timeout = 30000 // 30 second timeout to prevent hanging
+            };
 
-        mailMessage.To.Add(to);
+            using var mailMessage = new MailMessage
+            {
+                From = new MailAddress(smtpSettings["Username"], "GOJOR", Encoding.UTF8),
+                Subject = subject,
+                Body = TemplateSendUserToEmail(to, toUsername).Body,
+                IsBodyHtml = true
+            };
 
-        try
-        {
-            await smtpClient.SendMailAsync(mailMessage, cancellationToken);
-            _trace.Information("Email sent successfully");
-        }
-        catch (Exception ex)
-        {
-            _trace.Error(ex, ex.Message);
-        }
+            mailMessage.To.Add(to);
+
+            try
+            {
+                await smtpClient.SendMailAsync(mailMessage);
+                _trace.Information($"Email sent successfully to {to}");
+            }
+            catch (Exception ex)
+            {
+                _trace.Error(ex, $"Failed to send email to {to}: {ex.Message}");
+            }
+        }, cancellationToken);
+
+        // Return immediately without waiting for email to send
+        await Task.CompletedTask;
     }
 
     private MailMessage TemplatePasswordResetEmail(string toEmail, string fullname, string verificationCode)
