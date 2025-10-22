@@ -46,7 +46,7 @@ public class BlobStorageService : IBlobStorageService
         {
             var request = new DeleteObjectRequest
             {
-                BucketName = _configuration.GetSection("AWS:BucketName").Value,
+                BucketName = _awsOptions.BucketName,
                 Key = mediaUrl
             };
 
@@ -78,36 +78,67 @@ public class BlobStorageService : IBlobStorageService
         if (!allAllowedExtensions.Contains(fileExtension))
             throw new ArgumentException(_localizer["Invalid file type"], nameof(file));
 
+        // Validate file size based on type
+        var fileSizeMB = file.Length / (1024.0 * 1024.0);
+        var mediaType = DetermineMediaType(fileExtension);
+
+        if (mediaType == "Image" && fileSizeMB > _awsOptions.MaxImageSizeMB)
+            throw new ArgumentException(
+                _localizer["Image file size exceeds maximum allowed size of {0}MB", _awsOptions.MaxImageSizeMB],
+                nameof(file));
+
+        if (mediaType == "Video" && fileSizeMB > _awsOptions.MaxVideoSizeMB)
+            throw new ArgumentException(
+                _localizer["Video file size exceeds maximum allowed size of {0}MB", _awsOptions.MaxVideoSizeMB],
+                nameof(file));
+
+        if (mediaType == "Document" && fileSizeMB > _awsOptions.MaxDocumentSizeMB)
+            throw new ArgumentException(
+                _localizer["Document file size exceeds maximum allowed size of {0}MB", _awsOptions.MaxDocumentSizeMB],
+                nameof(file));
+
         var fileName = $"{folderName}/{Guid.NewGuid()}{fileExtension}";
 
-        using var memoryStream = new MemoryStream();
-        await file.CopyToAsync(memoryStream, cancellationToken);
-        memoryStream.Position = 0;
-
-        var request = new PutObjectRequest
+        // Use multipart upload for large files (better performance and reliability)
+        if (fileSizeMB >= _awsOptions.MultipartThresholdMB)
         {
-            BucketName = _configuration.GetSection("AWS:BucketName").Value,
-            Key = fileName,
-            InputStream = memoryStream,
-            ContentType = file.ContentType
-        };
-
-        await _s3Client.PutObjectAsync(request, cancellationToken);
-
-        // Trigger MediaConvert job if it's a video file
-        if (fileExtension == ".mp4" || fileExtension == ".mov" || fileExtension == ".avi")
+            await UploadLargeFileAsync(file, fileName, cancellationToken);
+        }
+        else
         {
-            request = new PutObjectRequest
+            // Use streaming upload for smaller files (no memory buffering)
+            await using var fileStream = file.OpenReadStream();
+            var request = new PutObjectRequest
             {
-                BucketName = _configuration.GetSection("AWS:Bucket:Input").Value,
+                BucketName = _awsOptions.BucketName,
                 Key = fileName,
-                InputStream = memoryStream,
+                InputStream = fileStream,
                 ContentType = file.ContentType
             };
 
             await _s3Client.PutObjectAsync(request, cancellationToken);
+        }
 
-            fileName = await ConvertVideoAsync(fileName, cancellationToken);
+        // Trigger MediaConvert job if it's a video file and transcoding is enabled
+        if (_awsOptions.EnableVideoTranscoding &&
+            _mediaConvertClient != null &&
+            allowedVideoExtensions.Contains(fileExtension))
+        {
+            // Upload to input bucket for MediaConvert processing
+            if (!string.IsNullOrEmpty(_awsOptions.InputBucket))
+            {
+                await using var fileStream = file.OpenReadStream();
+                var inputRequest = new PutObjectRequest
+                {
+                    BucketName = _awsOptions.InputBucket,
+                    Key = fileName,
+                    InputStream = fileStream,
+                    ContentType = file.ContentType
+                };
+
+                await _s3Client.PutObjectAsync(inputRequest, cancellationToken);
+                fileName = await ConvertVideoAsync(fileName, cancellationToken);
+            }
         }
 
         return await Result<string>.SuccessAsync(fileName, _localizer["File uploaded successfully."]);
@@ -117,21 +148,36 @@ public class BlobStorageService : IBlobStorageService
         string? folderName, CancellationToken cancellationToken)
     {
         var uploadResults = new List<MediaResponse>();
+        var fileList = files.ToList();
 
-        foreach (var file in files)
+        // Parallelize uploads for better performance
+        var uploadTasks = fileList.Select(async file =>
         {
-            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            try
+            {
+                var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                var result = await UploadMediaAsync(file, folderName, cancellationToken);
 
-            var result = await UploadMediaAsync(file, folderName, cancellationToken);
-            if (result.Succeeded)
-                uploadResults.Add(new MediaResponse(
+                if (result.Succeeded)
+                {
+                    return new MediaResponse(
                         result.Data,
                         file.ContentType,
                         (int)file.Length / 1000 + "KB",
                         fileExtension
-                    )
-                );
-        }
+                    );
+                }
+            }
+            catch (Exception)
+            {
+                // Log error but continue with other uploads
+            }
+
+            return null;
+        });
+
+        var results = await Task.WhenAll(uploadTasks);
+        uploadResults.AddRange(results.Where(r => r != null));
 
         return await Result<IEnumerable<MediaResponse>>.SuccessAsync(uploadResults,
             _localizer["Files uploaded successfully."]);
@@ -141,7 +187,7 @@ public class BlobStorageService : IBlobStorageService
     {
         var request = new GetPreSignedUrlRequest
         {
-            BucketName = _configuration.GetSection("AWS:BucketName").Value,
+            BucketName = _awsOptions.BucketName,
             Key = fileName,
             Expires = _dateTimeService.NowUtc.AddDays(1),
             Verb = HttpVerb.GET
@@ -163,15 +209,104 @@ public class BlobStorageService : IBlobStorageService
         return "Document";
     }
 
+    private async Task UploadLargeFileAsync(IFormFile file, string fileName, CancellationToken cancellationToken)
+    {
+        // Use multipart upload for large files (better performance, supports resume, parallel upload)
+        var initiateRequest = new InitiateMultipartUploadRequest
+        {
+            BucketName = _awsOptions.BucketName,
+            Key = fileName,
+            ContentType = file.ContentType
+        };
+
+        var initiateResponse = await _s3Client.InitiateMultipartUploadAsync(initiateRequest, cancellationToken);
+        var uploadId = initiateResponse.UploadId;
+
+        try
+        {
+            var partSize = _awsOptions.MultipartChunkSizeMB * 1024 * 1024; // Convert MB to bytes
+            var fileSize = file.Length;
+            var partCount = (int)Math.Ceiling((double)fileSize / partSize);
+
+            var uploadTasks = new List<Task<UploadPartResponse>>();
+            var completedParts = new List<PartETag>();
+
+            await using var fileStream = file.OpenReadStream();
+
+            // Upload parts in parallel for maximum performance
+            for (int partNumber = 1; partNumber <= partCount; partNumber++)
+            {
+                var partLength = Math.Min(partSize, fileSize - ((partNumber - 1) * partSize));
+                var buffer = new byte[partLength];
+                await fileStream.ReadAsync(buffer, 0, (int)partLength, cancellationToken);
+
+                var uploadRequest = new UploadPartRequest
+                {
+                    BucketName = _awsOptions.BucketName,
+                    Key = fileName,
+                    UploadId = uploadId,
+                    PartNumber = partNumber,
+                    InputStream = new MemoryStream(buffer)
+                };
+
+                uploadTasks.Add(_s3Client.UploadPartAsync(uploadRequest, cancellationToken));
+
+                // Limit concurrency to avoid overwhelming the server
+                if (uploadTasks.Count >= 4)
+                {
+                    var completedTask = await Task.WhenAny(uploadTasks);
+                    uploadTasks.Remove(completedTask);
+                    var response = await completedTask;
+                    completedParts.Add(new PartETag(response.PartNumber, response.ETag));
+                }
+            }
+
+            // Wait for remaining uploads to complete
+            var remainingResponses = await Task.WhenAll(uploadTasks);
+            completedParts.AddRange(remainingResponses.Select(r => new PartETag(r.PartNumber, r.ETag)));
+
+            // Complete the multipart upload
+            var completeRequest = new CompleteMultipartUploadRequest
+            {
+                BucketName = _awsOptions.BucketName,
+                Key = fileName,
+                UploadId = uploadId,
+                PartETags = completedParts.OrderBy(p => p.PartNumber).ToList()
+            };
+
+            await _s3Client.CompleteMultipartUploadAsync(completeRequest, cancellationToken);
+        }
+        catch (Exception)
+        {
+            // Abort the multipart upload on failure to avoid storage charges
+            var abortRequest = new AbortMultipartUploadRequest
+            {
+                BucketName = _awsOptions.BucketName,
+                Key = fileName,
+                UploadId = uploadId
+            };
+
+            await _s3Client.AbortMultipartUploadAsync(abortRequest, cancellationToken);
+            throw;
+        }
+    }
+
     private async Task<string> ConvertVideoAsync(string inputFileName, CancellationToken cancellationToken)
     {
+        if (_mediaConvertClient == null || string.IsNullOrEmpty(_awsOptions.InputBucket) ||
+            string.IsNullOrEmpty(_awsOptions.OutputBucket))
+        {
+            // Video transcoding not configured, return original filename
+            return inputFileName;
+        }
+
         var jobSettings = new JobSettings
         {
             Inputs = new List<Input>
             {
                 new Input
                 {
-                    FileInput = $"s3://{_configuration.GetSection("AWS:Bucket:Input").Value}/{inputFileName}",
+                    FileInput = $"s3://{_awsOptions.InputBucket}/{inputFileName}",
                     AudioSelectors = new Dictionary<string, AudioSelector>
                     {
                         { "Audio Selector 1", new AudioSelector { DefaultSelection = AudioDefaultSelection.DEFAULT } }
@@ -188,7 +323,7 @@ public class BlobStorageService : IBlobStorageService
                         Type = OutputGroupType.HLS_GROUP_SETTINGS,
                         HlsGroupSettings = new HlsGroupSettings
                         {
-                            Destination = $"s3://{_configuration.GetSection("AWS:Bucket:Output").Value}/",
+                            Destination = $"s3://{_awsOptions.OutputBucket}/",
                             SegmentLength = 10,
                             MinSegmentLength = 0
                         }
@@ -363,7 +498,7 @@ public class BlobStorageService : IBlobStorageService
 
         var createJobRequest = new CreateJobRequest
         {
-            Role = "arn:aws:iam::876782314171:role/service-role/MediaConvert_Default_Role",
+            Role = _awsOptions.MediaConvertRole ?? "arn:aws:iam::876782314171:role/service-role/MediaConvert_Default_Role",
             Settings = jobSettings
         };
 
