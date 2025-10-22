@@ -17,14 +17,14 @@ public class NumericService : INumericService
         int numericLength = 6)
         where T : AuditableEntity<string>
     {
-        try
-        {
-            string newNumber;
-            bool numberExists;
+        const int maxRetries = 10;
+        int attempt = 0;
 
-            do
+        while (attempt < maxRetries)
+        {
+            try
             {
-                // Get the last number in a separate query within the loop
+                // Get the last number with proper ordering
                 var lastNumber = await _unitOfWork.Repository<T>()
                     .Entities
                     .OrderByDescending(numberSelector)
@@ -44,18 +44,34 @@ public class NumericService : INumericService
                     }
                 }
 
-                newNumber = $"{prefix}{currentNumber.ToString().PadLeft(numericLength, '0')}";
+                var newNumber = $"{prefix}{currentNumber.ToString().PadLeft(numericLength, '0')}";
 
-                // Verify uniqueness
-                numberExists = await IsNumberExistsAsync(newNumber, numberSelector);
-            } while (numberExists);
+                // Verify uniqueness before returning
+                var exists = await IsNumberExistsAsync(newNumber, numberSelector);
+                if (!exists)
+                {
+                    return newNumber;
+                }
 
-            return newNumber;
+                // If the number exists, it means another thread grabbed it
+                // Add a small random delay and retry
+                attempt++;
+                if (attempt < maxRetries)
+                {
+                    await Task.Delay(Random.Shared.Next(10, 50));
+                }
+            }
+            catch (Exception ex) when (attempt < maxRetries - 1)
+            {
+                // If we hit a database error (like deadlock), retry with exponential backoff
+                attempt++;
+                await Task.Delay(TimeSpan.FromMilliseconds(Math.Pow(2, attempt) * 50));
+            }
         }
-        catch (Exception ex)
-        {
-            throw new ApplicationException($"Error generating number for {typeof(T).Name}", ex);
-        }
+
+        throw new ApplicationException(
+            $"Failed to generate unique number for {typeof(T).Name} after {maxRetries} attempts. " +
+            "This may indicate high concurrency or a configuration issue.");
     }
 
     private async Task<bool> IsNumberExistsAsync<T>(
