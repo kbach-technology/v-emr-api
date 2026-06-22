@@ -86,6 +86,9 @@ if (app.Environment.IsDevelopment())
 app.UseSecurityHeaders(configuration);
 app.UseHttpsRedirection();
 
+// Error handler middleware must be early in the pipeline to catch all exceptions
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
 app.UseRequestLocalizationByCulture();
 app.Initialize(configuration, CancellationToken.None);
 app.UseRouting();
@@ -93,8 +96,6 @@ app.UseRouting();
 app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 

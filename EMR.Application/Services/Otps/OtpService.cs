@@ -42,12 +42,41 @@ public class OtpService : BaseService<OtpService>, IOtpService
 
             if (existing != null) return await Result<string>.SuccessAsync(_localizer["Otp Already Sent"]);
 
+            // Generate OTP with retry for collision handling
+            string otpCode;
+            bool isDuplicate;
+            int maxAttempts = 5;
+            int attempt = 0;
+
+            do
+            {
+                otpCode = GenerateRandomOtp();
+
+                // Check if this OTP code already exists for this phone and is still valid
+                isDuplicate = await _unitOfWork.Repository<OTP>().Entities
+                    .AnyAsync(x =>
+                        x.PhoneNumber == request.PhoneNumber
+                        && x.Code == otpCode
+                        && x.ExpiredOn > _dateTimeService.NowUtc,
+                        cancellationToken);
+
+                attempt++;
+            } while (isDuplicate && attempt < maxAttempts);
+
+            if (isDuplicate)
+            {
+                // Extremely rare - 1 in 1 million chance per attempt
+                _trace.Warning("Failed to generate unique OTP after {MaxAttempts} attempts for phone {PhoneNumber}",
+                    maxAttempts, request.PhoneNumber);
+                return await Result<string>.FailAsync(_localizer["Unable to generate OTP, please try again"]);
+            }
+
             var otp = _mapper.Map<OTP>(request);
             otp.Id = Guid.NewGuid().ToString();
             otp.ExpiredOn = _dateTimeService.NowUtc.AddMinutes(2);
             otp.Action = request.otpAction;
             otp.IsValid = false;
-            otp.Code = Codes.GenerateUniqueOtp();
+            otp.Code = otpCode;
             otp.IpAddress = _currentUserService.CurrentIp;
 
             await _unitOfWork.Repository<OTP>().AddAsync(otp);
@@ -94,12 +123,40 @@ public class OtpService : BaseService<OtpService>, IOtpService
                 return await Result<string>.SuccessAsync(_localizer["Code Already Sent"]);
             }
 
+            // Generate OTP with retry for collision handling
+            string otpCode;
+            bool isDuplicate;
+            int maxAttempts = 5;
+            int attempt = 0;
+
+            do
+            {
+                otpCode = GenerateRandomOtp();
+
+                // Check if this OTP code already exists for this email and is still valid
+                isDuplicate = await _unitOfWork.Repository<OTP>().Entities
+                    .AnyAsync(x =>
+                        x.Email == request.Email
+                        && x.Code == otpCode
+                        && x.ExpiredOn > _dateTimeService.NowUtc,
+                        cancellationToken);
+
+                attempt++;
+            } while (isDuplicate && attempt < maxAttempts);
+
+            if (isDuplicate)
+            {
+                _trace.Warning("Failed to generate unique OTP after {MaxAttempts} attempts for email {Email}",
+                    maxAttempts, request.Email);
+                return await Result<string>.FailAsync(_localizer["Unable to generate OTP, please try again"]);
+            }
+
             var otp = _mapper.Map<OTP>(request);
             otp.Id = Guid.NewGuid().ToString();
             otp.ExpiredOn = _dateTimeService.NowUtc.AddMinutes(5);
             otp.Action = request.otpAction;
             otp.IsValid = false;
-            otp.Code = Codes.GenerateUniqueOtp();
+            otp.Code = otpCode;
             otp.IpAddress = _currentUserService.CurrentIp;
 
             await _unitOfWork.Repository<OTP>().AddAsync(otp);
@@ -122,12 +179,40 @@ public class OtpService : BaseService<OtpService>, IOtpService
     {
         try
         {
+            // Generate OTP with retry for collision handling
+            string otpCode;
+            bool isDuplicate;
+            int maxAttempts = 5;
+            int attempt = 0;
+
+            do
+            {
+                otpCode = GenerateRandomOtp();
+
+                // Check if this OTP code already exists for this phone and is still valid
+                isDuplicate = await _unitOfWork.Repository<OTP>().Entities
+                    .AnyAsync(x =>
+                        x.PhoneNumber == request.PhoneNumber
+                        && x.Code == otpCode
+                        && x.ExpiredOn > _dateTimeService.NowUtc,
+                        cancellationToken);
+
+                attempt++;
+            } while (isDuplicate && attempt < maxAttempts);
+
+            if (isDuplicate)
+            {
+                _trace.Warning("Failed to generate unique OTP after {MaxAttempts} attempts for phone {PhoneNumber}",
+                    maxAttempts, request.PhoneNumber);
+                return await Result<string>.FailAsync(_localizer["Unable to generate OTP, please try again"]);
+            }
+
             var otp = _mapper.Map<OTP>(request);
             otp.Id = Guid.NewGuid().ToString();
             otp.ExpiredOn = _dateTimeService.NowUtc.AddMinutes(5);
             otp.Action = OTPAction.RegisterCode;
             otp.IsValid = false;
-            otp.Code = Codes.GenerateUniqueOtp();
+            otp.Code = otpCode;
 
             await _unitOfWork.Repository<OTP>().AddAsync(otp);
             await _unitOfWork.Commit(cancellationToken);
@@ -169,19 +254,47 @@ public class OtpService : BaseService<OtpService>, IOtpService
                 return await Result<string>.SuccessAsync(_localizer["Code Already Sent"]);
             }
 
+            // Generate OTP with retry for collision handling
+            string otpCode;
+            bool isDuplicate;
+            int maxAttempts = 5;
+            int attempt = 0;
+
+            do
+            {
+                otpCode = GenerateRandomOtp();
+
+                // Check if this OTP code already exists for this email and is still valid
+                isDuplicate = await _unitOfWork.Repository<OTP>().Entities
+                    .AnyAsync(x =>
+                        x.Email == request.Email
+                        && x.Code == otpCode
+                        && x.ExpiredOn > _dateTimeService.NowUtc,
+                        cancellationToken);
+
+                attempt++;
+            } while (isDuplicate && attempt < maxAttempts);
+
+            if (isDuplicate)
+            {
+                _trace.Warning("Failed to generate unique OTP after {MaxAttempts} attempts for email {Email}",
+                    maxAttempts, request.Email);
+                return await Result<string>.FailAsync(_localizer["Unable to generate OTP, please try again"]);
+            }
+
             var otp = _mapper.Map<OTP>(request);
             otp.Id = Guid.NewGuid().ToString();
             otp.ExpiredOn = _dateTimeService.NowUtc.AddMinutes(5);
             otp.Action = OTPAction.ResendCode;
             otp.IsValid = false;
-            otp.Code = Codes.GenerateUniqueOtp();
+            otp.Code = otpCode;
 
             await _unitOfWork.Repository<OTP>().AddAsync(otp);
             await _unitOfWork.Commit(cancellationToken);
 
             await _sendGridService.SendPinEmailAsync(request.Email, account.FullName,
                 _localizer["Password reset requested"],
-                otp.Code, // Fixed: Use the same OTP code that was stored
+                otp.Code, // Use the same OTP code that was stored
                 cancellationToken);
             return await Result<string>.SuccessAsync(_localizer["Code Saved"]);
         }
@@ -294,27 +407,12 @@ public class OtpService : BaseService<OtpService>, IOtpService
     }
 
 
-    private static class Codes
+    /// <summary>
+    /// Generates a random 6-digit OTP code.
+    /// Database constraints ensure uniqueness within validity window.
+    /// </summary>
+    private static string GenerateRandomOtp()
     {
-        private static readonly HashSet<string> _generatedOtps = new();
-        private static readonly Random _random = new();
-        private static readonly object _lock = new();
-
-        public static string GenerateUniqueOtp()
-        {
-            lock (_lock)
-            {
-                string otp;
-                do
-                {
-                    otp = _random.Next(100000, 999999).ToString();
-                } while (_generatedOtps.Contains(otp));
-
-                _generatedOtps.Add(otp);
-                if (_generatedOtps.Count > 1000) // Prevent memory leak
-                    _generatedOtps.Clear();
-                return otp;
-            }
-        }
+        return Random.Shared.Next(100000, 999999).ToString();
     }
 }
